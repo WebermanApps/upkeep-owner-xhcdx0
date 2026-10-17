@@ -33,7 +33,7 @@ function section(d){
  set('s-facts',(x.facts||[]).length?(x.facts.map(function(s){return '<li>'+esc(s)+'</li>'}).join('')):'<li>No data yet.</li>');
  set('s-links',(x.links||[]).length?x.links.map(function(l){return '<a class="u-card k-'+(l.k||'owner')+'" href="'+esc(l.u)+'"><span class="u-badge '+(/TEST|Draft|Planned|Prototype/.test(l.tag)?'ph':'real')+'">'+esc(l.tag||'Link')+'</span><span class="u-nm">'+esc(l.t)+'</span><span class="u-open">Open (locked page) →</span></a>'}).join(''):'<p class="u-sub">No linked tools yet.</p>');
  var hd=function(){document.querySelectorAll('.mw-cc-title').forEach(function(e){e.textContent=x.name+' Dashboard'});
- document.querySelectorAll('.mw-cc-desc').forEach(function(e){e.innerHTML='<b>Agent: '+esc(x.status==="real"?(x.agent||x.name):"placeholder")+'</b> · '+esc(x.job||'')+' '+badge(x.status)});};hd();[200,800,2000,4000].forEach(function(ms){setTimeout(hd,ms)});
+ document.querySelectorAll('.mw-cc-desc').forEach(function(e){e.innerHTML='<b>Agent: '+esc(x.status==="real"?(x.agent||x.name):"placeholder")+'</b> · '+esc(x.job||'')+' '+badge(x.status)});};hd();var want=x.name+' Dashboard',busy=0;new MutationObserver(function(){if(busy)return;var e=document.querySelector('.mw-cc-title');if(e&&e.textContent!==want){busy=1;hd();busy=0}}).observe(document.body,{childList:true,subtree:true,characterData:true});
  if(x.status==='real'&&x.url)set('s-real','<a class="s-ret" href="'+esc(x.url)+'">Open '+esc(x.agent||x.name)+'\'s live board →</a>');
 }
 fetch(ROOT+'org.json?t='+Date.now()).then(function(r){return r.json()}).then(function(d){
