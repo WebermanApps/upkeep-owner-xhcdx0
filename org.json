@@ -1,81 +1,637 @@
 {
  "updated": "2026-10-17T21:45:00+07:00",
- "note": "Edit this file to change the org chart and section pages. status: real | placeholder. kind: tech | member | owner (sets the accent color). All numbers are TEST/Planned/Draft, zero real members.",
- "owner": {"name": "Max", "role": "Owner"},
- "lead": {"name": "Grok Bot", "role": "Team lead", "status": "real", "url": "https://webermanapps.github.io/a-o956qercs5ubd57y/"},
- "chief": {"id": "chief", "name": "Grok Bot 2", "role": "UpKeep Chief", "status": "placeholder", "kind": "owner",
-   "job": "Runs UpKeep's agents: assigns work, checks results and reports to Grok Bot.",
-   "shows": ["Status of every UpKeep section agent", "Open handoffs between sections", "Daily summary for Max"], "links": []},
+ "note": "Edit this file to change the hub, org chart and section pages. status: real | placeholder. kind: tech | member | owner (accent color). group: one of groups[].id. All numbers are TEST/Planned/Draft; zero real members.",
+ "owner": {
+  "name": "Max",
+  "role": "Owner"
+ },
+ "lead": {
+  "name": "Grok Bot",
+  "role": "Team lead",
+  "status": "real",
+  "url": "https://webermanapps.github.io/a-o956qercs5ubd57y/"
+ },
+ "chief": {
+  "id": "chief",
+  "name": "Grok Bot 2",
+  "role": "UpKeep Chief",
+  "status": "placeholder",
+  "kind": "owner",
+  "job": "Runs UpKeep's agents: assigns work, checks results and reports to Grok Bot.",
+  "shows": [
+   "Status of every UpKeep section agent",
+   "Open handoffs between sections",
+   "Daily summary for Max"
+  ],
+  "links": [],
+  "owner_agent": ""
+ },
  "sections": [
-  {"id": "product", "name": "Product & Platform", "agent": "UpKeep", "status": "real", "kind": "owner",
+  {
+   "id": "product",
+   "name": "Product & Platform",
+   "agent": "UpKeep",
+   "status": "real",
+   "kind": "owner",
    "url": "https://webermanapps.github.io/upkeep-cc-d36d3521/",
    "job": "Build and run the member app, tech app, Operator Console and smartupkeep.ai.",
-   "shows": ["Apps, site and backend status", "Links to the gated prototypes (sample data)"],
+   "shows": [
+    "Apps, site and backend status",
+    "Links to the gated prototypes (sample data)"
+   ],
    "links": [
-    {"t": "Member App", "u": "https://smartupkeep.ai/member/", "tag": "Prototype", "k": "member"},
-    {"t": "Tech Dash 1", "u": "https://smartupkeep.ai/tech/?dash=1", "tag": "TEST", "k": "tech"},
-    {"t": "Tech Dash 2", "u": "https://smartupkeep.ai/tech/?dash=2", "tag": "TEST", "k": "tech"},
-    {"t": "Tech Dash 3", "u": "https://smartupkeep.ai/tech/?dash=3", "tag": "TEST", "k": "tech"},
-    {"t": "Operator Console", "u": "https://smartupkeep.ai/console/", "tag": "Prototype", "k": "owner"},
-    {"t": "Information Flow Map", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/info-flow/", "tag": "Tool", "k": "owner"},
-    {"t": "Website Diagram", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/website-diagram/", "tag": "Tool", "k": "owner"}]},
-  {"id": "members", "name": "Members", "status": "placeholder", "kind": "member",
+    {
+     "t": "Member App",
+     "u": "https://smartupkeep.ai/member/",
+     "tag": "Prototype",
+     "k": "member"
+    },
+    {
+     "t": "Tech Dash 1",
+     "u": "https://smartupkeep.ai/tech/?dash=1",
+     "tag": "TEST",
+     "k": "tech"
+    },
+    {
+     "t": "Tech Dash 2",
+     "u": "https://smartupkeep.ai/tech/?dash=2",
+     "tag": "TEST",
+     "k": "tech"
+    },
+    {
+     "t": "Tech Dash 3",
+     "u": "https://smartupkeep.ai/tech/?dash=3",
+     "tag": "TEST",
+     "k": "tech"
+    },
+    {
+     "t": "Operator Console",
+     "u": "https://smartupkeep.ai/console/",
+     "tag": "Prototype",
+     "k": "owner"
+    },
+    {
+     "t": "Information Flow Map",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/info-flow/",
+     "tag": "Tool",
+     "k": "owner"
+    },
+    {
+     "t": "Website Diagram",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/website-diagram/",
+     "tag": "Tool",
+     "k": "owner"
+    }
+   ],
+   "group": "platform",
+   "owner_agent": "UpKeep",
+   "kpi": {
+    "main": {
+     "label": "Prototype apps",
+     "value": "4",
+     "basis": "Prototype"
+    },
+    "tiles": [
+     {
+      "label": "Member app",
+      "value": "Prototype",
+      "basis": "Prototype"
+     },
+     {
+      "label": "Tech app",
+      "value": "Prototype",
+      "basis": "Prototype"
+     },
+     {
+      "label": "Operator Console",
+      "value": "Prototype",
+      "basis": "Prototype"
+     },
+     {
+      "label": "smartupkeep.ai",
+      "value": "Private beta",
+      "basis": "Planned"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "members",
+   "name": "Members",
+   "status": "placeholder",
+   "kind": "member",
    "job": "Sign-ups, onboarding, Home Records, renewals, churn.",
-   "facts": ["TEST data: 100 members (zero real members)", "Plans: Essentials 50 / Plus 32 / Complete 18 (TEST)", "Counties: Oakland 39 / Wayne 34 / Macomb 27 (TEST)"],
-   "shows": ["Sign-ups and onboarding queue", "Home Records completeness", "Renewals due and churn risk"],
+   "facts": [
+    "TEST data: 100 members (zero real members)",
+    "Plans: Essentials 50 / Plus 32 / Complete 18 (TEST)",
+    "Counties: Oakland 39 / Wayne 34 / Macomb 27 (TEST)"
+   ],
+   "shows": [
+    "Sign-ups and onboarding queue",
+    "Home Records completeness",
+    "Renewals due and churn risk"
+   ],
    "links": [
-    {"t": "Client 1", "u": "https://smartupkeep.ai/member/?client=1", "tag": "TEST", "k": "member"},
-    {"t": "Client 2", "u": "https://smartupkeep.ai/member/?client=2", "tag": "TEST", "k": "member"},
-    {"t": "Client 3", "u": "https://smartupkeep.ai/member/?client=3", "tag": "TEST", "k": "member"},
-    {"t": "Funnel", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/funnel/", "tag": "Tool", "k": "owner"}]},
-  {"id": "technicians", "name": "Technicians", "status": "placeholder", "kind": "tech",
+    {
+     "t": "Client 1",
+     "u": "https://smartupkeep.ai/member/?client=1",
+     "tag": "TEST",
+     "k": "member"
+    },
+    {
+     "t": "Client 2",
+     "u": "https://smartupkeep.ai/member/?client=2",
+     "tag": "TEST",
+     "k": "member"
+    },
+    {
+     "t": "Client 3",
+     "u": "https://smartupkeep.ai/member/?client=3",
+     "tag": "TEST",
+     "k": "member"
+    },
+    {
+     "t": "Funnel",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/funnel/",
+     "tag": "Tool",
+     "k": "owner"
+    }
+   ],
+   "group": "people",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Members",
+     "value": "100",
+     "basis": "TEST"
+    },
+    "tiles": [
+     {
+      "label": "Essentials",
+      "value": "50",
+      "basis": "TEST"
+     },
+     {
+      "label": "Plus",
+      "value": "32",
+      "basis": "TEST"
+     },
+     {
+      "label": "Complete",
+      "value": "18",
+      "basis": "TEST"
+     },
+     {
+      "label": "Oakland / Wayne / Macomb",
+      "value": "39 / 34 / 27",
+      "basis": "TEST"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "technicians",
+   "name": "Technicians",
+   "status": "placeholder",
+   "kind": "tech",
    "job": "Hiring, training, certs, profiles, performance.",
-   "facts": ["TEST techs: Dana Whitmore, Luis Ferreira, Keon Atwater", "Required certs: EPA 608, RRP, OSHA 10, CPR"],
-   "shows": ["Tech profiles and cert status", "Training progress", "Performance per tech"],
+   "facts": [
+    "TEST techs: Dana Whitmore, Luis Ferreira, Keon Atwater",
+    "Required certs: EPA 608, RRP, OSHA 10, CPR"
+   ],
+   "shows": [
+    "Tech profiles and cert status",
+    "Training progress",
+    "Performance per tech"
+   ],
    "links": [
-    {"t": "Tech Training Week plan (Research)", "u": "https://webermanapps.github.io/rd-3k3k8jcaqb/writeups/upkeep-training-week.html", "tag": "Plan", "k": "tech"}]},
-  {"id": "materials", "name": "Materials & Inventory", "status": "placeholder", "kind": "tech",
+    {
+     "t": "Tech Training Week plan (Research)",
+     "u": "https://webermanapps.github.io/rd-3k3k8jcaqb/writeups/upkeep-training-week.html",
+     "tag": "Plan",
+     "k": "tech"
+    }
+   ],
+   "group": "people",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Techs",
+     "value": "3",
+     "basis": "TEST"
+    },
+    "tiles": [
+     {
+      "label": "Techs",
+      "value": "3",
+      "basis": "TEST"
+     },
+     {
+      "label": "Required certs",
+      "value": "4",
+      "basis": "Draft"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "materials",
+   "name": "Materials & Inventory",
+   "status": "placeholder",
+   "kind": "tech",
    "job": "Van stock, restock before each day, tool list, suppliers.",
-   "facts": ["Van Tool List (in UpKeep's Document Center): Day One $6,081.82 / Add Later $2,913.06 (Draft)"],
-   "shows": ["Van stock per tech", "Restock list before each day", "Suppliers"],
+   "facts": [
+    "Van Tool List (in UpKeep's Document Center): Day One $6,081.82 / Add Later $2,913.06 (Draft)"
+   ],
+   "shows": [
+    "Van stock per tech",
+    "Restock list before each day",
+    "Suppliers"
+   ],
    "links": [
-    {"t": "Van Tool List PDF (UpKeep Document Center)", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/#mw-projects", "tag": "Draft", "k": "tech"},
-    {"t": "Van Inventory (Operator Console)", "u": "https://smartupkeep.ai/console/", "tag": "Prototype", "k": "owner"}]},
-  {"id": "scheduling", "name": "Scheduling & Dispatch", "status": "placeholder", "kind": "tech",
+    {
+     "t": "Van Tool List PDF (UpKeep Document Center)",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/#mw-projects",
+     "tag": "Draft",
+     "k": "tech"
+    },
+    {
+     "t": "Van Inventory (Operator Console)",
+     "u": "",
+     "tag": "Prototype",
+     "k": "owner"
+    }
+   ],
+   "group": "ops",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Van kit, Day One",
+     "value": "$6,081.82",
+     "basis": "Draft"
+    },
+    "tiles": [
+     {
+      "label": "Day One",
+      "value": "$6,081.82",
+      "basis": "Draft"
+     },
+     {
+      "label": "Add Later",
+      "value": "$2,913.06",
+      "basis": "Draft"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "scheduling",
+   "name": "Scheduling & Dispatch",
+   "status": "placeholder",
+   "kind": "tech",
    "job": "Auto-plan routes and daily visit loads per tech.",
-   "facts": ["Auto-planner: Planned", "Truck material check: Planned"],
-   "shows": ["Today's routes per tech", "Visit load balance", "Material check before each route"],
-   "links": [{"t": "Route view (Operator Console)", "u": "https://smartupkeep.ai/console/", "tag": "Prototype", "k": "owner"}]},
-  {"id": "support", "name": "Customer Support", "status": "placeholder", "kind": "member",
+   "facts": [
+    "Auto-planner: Planned",
+    "Truck material check: Planned"
+   ],
+   "shows": [
+    "Today's routes per tech",
+    "Visit load balance",
+    "Material check before each route"
+   ],
+   "links": [
+    {
+     "t": "Route view (Operator Console)",
+     "u": "",
+     "tag": "Prototype",
+     "k": "owner"
+    }
+   ],
+   "group": "ops",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Auto-planner",
+     "value": "Planned",
+     "basis": "Planned"
+    },
+    "tiles": [
+     {
+      "label": "Auto-planner",
+      "value": "Planned",
+      "basis": "Planned"
+     },
+     {
+      "label": "Truck material check",
+      "value": "Planned",
+      "basis": "Planned"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "support",
+   "name": "Customer Support",
+   "status": "placeholder",
+   "kind": "member",
    "job": "Ask Anything triage, messages, handoffs to Max/staff.",
-   "facts": ["Ask Anything (member AI assistant): Planned"],
-   "shows": ["Ask Anything conversations to triage", "Member messages", "Handoffs to Max or staff"],
-   "links": [{"t": "Messages (Operator Console)", "u": "https://smartupkeep.ai/console/", "tag": "Prototype", "k": "owner"}]},
-  {"id": "marketing", "name": "Marketing & Growth", "status": "placeholder", "kind": "member",
+   "facts": [
+    "Ask Anything (member AI assistant): Planned"
+   ],
+   "shows": [
+    "Ask Anything conversations to triage",
+    "Member messages",
+    "Handoffs to Max or staff"
+   ],
+   "links": [
+    {
+     "t": "Messages (Operator Console)",
+     "u": "",
+     "tag": "Prototype",
+     "k": "owner"
+    }
+   ],
+   "group": "people",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Ask Anything",
+     "value": "Planned",
+     "basis": "Planned"
+    },
+    "tiles": [
+     {
+      "label": "Ask Anything",
+      "value": "Planned",
+      "basis": "Planned"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "marketing",
+   "name": "Marketing & Growth",
+   "status": "placeholder",
+   "kind": "member",
    "job": "Funnel, referrals, yard signs, video, site copy.",
-   "facts": ["smartupkeep.ai: private beta", "Sign-ups open Dec 1 2026 (Planned)", "Beta and service start Jan 1 2027 (Planned)"],
-   "shows": ["Funnel stages", "Referrals and yard signs", "Video and site copy"],
-   "links": [{"t": "smartupkeep.ai", "u": "https://smartupkeep.ai/", "tag": "Private beta", "k": "member"},
-    {"t": "Funnel", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/funnel/", "tag": "Tool", "k": "owner"}]},
-  {"id": "finance", "name": "Finance & Billing", "status": "placeholder", "kind": "owner",
+   "facts": [
+    "smartupkeep.ai: private beta",
+    "Sign-ups open Dec 1 2026 (Planned)",
+    "Beta and service start Jan 1 2027 (Planned)"
+   ],
+   "shows": [
+    "Funnel stages",
+    "Referrals and yard signs",
+    "Video and site copy"
+   ],
+   "links": [
+    {
+     "t": "smartupkeep.ai",
+     "u": "https://smartupkeep.ai/",
+     "tag": "Private beta",
+     "k": "member"
+    },
+    {
+     "t": "Funnel",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/funnel/",
+     "tag": "Tool",
+     "k": "owner"
+    }
+   ],
+   "group": "money",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Sign-ups open",
+     "value": "Dec 1 2026",
+     "basis": "Planned"
+    },
+    "tiles": [
+     {
+      "label": "Sign-ups open",
+      "value": "Dec 1 2026",
+      "basis": "Planned"
+     },
+     {
+      "label": "Beta and service start",
+      "value": "Jan 1 2027",
+      "basis": "Planned"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "finance",
+   "name": "Finance & Billing",
+   "status": "placeholder",
+   "kind": "owner",
    "job": "Pricing, billing, refunds, forecast, valuation.",
-   "facts": ["Plans from $99 / $164 / $312 per month billed yearly, plus a 2-year prepay", "Forecast v3 (Draft): break-even at 27 members, first profitable month Feb 2027"],
-   "shows": ["Billing and refunds", "Forecast vs. plan", "Valuation"],
-   "links": [{"t": "Forecast v3", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/forecast/", "tag": "Draft", "k": "owner"},
-    {"t": "Value Estimator", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/value-estimator/", "tag": "Draft", "k": "owner"},
-    {"t": "Pitch deck", "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/pitch-deck/", "tag": "Draft", "k": "owner"}]},
-  {"id": "quality", "name": "Quality & Safety", "status": "placeholder", "kind": "tech",
+   "facts": [
+    "Plans from $99 / $164 / $312 per month billed yearly, plus a 2-year prepay",
+    "Forecast v3 (Draft): break-even at 27 members, first profitable month Feb 2027"
+   ],
+   "shows": [
+    "Billing and refunds",
+    "Forecast vs. plan",
+    "Valuation"
+   ],
+   "links": [
+    {
+     "t": "Forecast v3",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/forecast/",
+     "tag": "Draft",
+     "k": "owner"
+    },
+    {
+     "t": "Value Estimator",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/value-estimator/",
+     "tag": "Draft",
+     "k": "owner"
+    },
+    {
+     "t": "Pitch deck",
+     "u": "https://webermanapps.github.io/upkeep-cc-d36d3521/pitch-deck/",
+     "tag": "Draft",
+     "k": "owner"
+    }
+   ],
+   "group": "money",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Break-even",
+     "value": "27 members",
+     "basis": "Forecast"
+    },
+    "tiles": [
+     {
+      "label": "Break-even",
+      "value": "27 members",
+      "basis": "Forecast"
+     },
+     {
+      "label": "First profitable month",
+      "value": "Feb 2027",
+      "basis": "Forecast"
+     },
+     {
+      "label": "Plans per month, billed yearly",
+      "value": "$99 / $164 / $312",
+      "basis": "Pricing"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "quality",
+   "name": "Quality & Safety",
+   "status": "placeholder",
+   "kind": "tech",
    "job": "Visit QA, photo audits, gas/electrical/CO/flood escalation rules, tech certs.",
-   "facts": ["Escalation rules: gas, electrical, CO and flood go straight to Max/staff (Draft)", "Every visit needs photos (Draft requirement)"],
-   "shows": ["Visit QA results", "Photo audits", "Escalations and cert expiry"], "links": []},
-  {"id": "legal", "name": "Legal & Compliance", "status": "placeholder", "kind": "owner",
+   "facts": [
+    "Escalation rules: gas, electrical, CO and flood go straight to Max/staff (Draft)",
+    "Every visit needs photos (Draft requirement)"
+   ],
+   "shows": [
+    "Visit QA results",
+    "Photo audits",
+    "Escalations and cert expiry"
+   ],
+   "links": [],
+   "group": "ops",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Escalation types",
+     "value": "4",
+     "basis": "Draft"
+    },
+    "tiles": [
+     {
+      "label": "Escalation types (gas, electrical, CO, flood)",
+      "value": "4",
+      "basis": "Draft"
+     },
+     {
+      "label": "Visit photos",
+      "value": "Required",
+      "basis": "Draft"
+     }
+    ]
+   },
+   "trend": []
+  },
+  {
+   "id": "legal",
+   "name": "Legal & Compliance",
+   "status": "placeholder",
+   "kind": "owner",
    "job": "Liaison to Legal for cancel notices, ROSCA and contracts.",
-   "shows": ["Open questions for Legal", "Cancel notice and ROSCA checklist", "Contracts in review"],
-   "links": [{"t": "Legal board (shared)", "u": "https://webermanapps.github.io/legal-0a84f667080d/", "tag": "Shared", "k": "owner"}]}
+   "shows": [
+    "Open questions for Legal",
+    "Cancel notice and ROSCA checklist",
+    "Contracts in review"
+   ],
+   "links": [
+    {
+     "t": "Legal board (shared)",
+     "u": "https://webermanapps.github.io/legal-0a84f667080d/",
+     "tag": "Shared",
+     "k": "owner"
+    }
+   ],
+   "group": "platform",
+   "owner_agent": "",
+   "kpi": {
+    "main": {
+     "label": "Liaison",
+     "value": "Planned",
+     "basis": "Planned"
+    },
+    "tiles": [
+     {
+      "label": "Cancel notices, ROSCA, contracts",
+      "value": "Planned",
+      "basis": "Planned"
+     }
+    ]
+   },
+   "trend": []
+  }
  ],
  "shared": [
-  {"name": "Security", "url": "https://webermanapps.github.io/security-07940c684c/"},
-  {"name": "Branding", "url": "https://webermanapps.github.io/branding-djqmb410/"},
-  {"name": "Legal", "url": "https://webermanapps.github.io/legal-0a84f667080d/"}
- ]
+  {
+   "name": "Security",
+   "url": "https://webermanapps.github.io/security-07940c684c/"
+  },
+  {
+   "name": "Branding",
+   "url": "https://webermanapps.github.io/branding-djqmb410/"
+  },
+  {
+   "name": "Legal",
+   "url": "https://webermanapps.github.io/legal-0a84f667080d/"
+  }
+ ],
+ "title": "UpKeep Operator Dash",
+ "owner_agent": "operator-dash-agent (placeholder)",
+ "deck_agent": "upkeep",
+ "apps_home": "https://webermanapps.github.io/a-o956qercs5ubd57y/",
+ "groups": [
+  {
+   "id": "people",
+   "name": "People"
+  },
+  {
+   "id": "ops",
+   "name": "Operations"
+  },
+  {
+   "id": "money",
+   "name": "Money"
+  },
+  {
+   "id": "platform",
+   "name": "Platform & Legal"
+  }
+ ],
+ "owner_field_note": "owner_agent per section: '' = no owner yet (shows the empty slot). The hub itself is owned by operator-dash-agent (placeholder).",
+ "kpis": {
+  "note": "TEST = UpKeep test dataset; Forecast = forecast v3 target. Never mixed in one number. Zero real members.",
+  "items": [
+   {
+    "label": "Members",
+    "value": "100",
+    "basis": "TEST"
+   },
+   {
+    "label": "Plan mix E / P / C",
+    "value": "50 / 32 / 18",
+    "basis": "TEST"
+   },
+   {
+    "label": "Techs",
+    "value": "3",
+    "basis": "TEST"
+   },
+   {
+    "label": "MRR from plan mix",
+    "value": "$15,814",
+    "basis": "TEST"
+   },
+   {
+    "label": "Break-even",
+    "value": "27 members",
+    "basis": "Forecast"
+   }
+  ]
+ }
 }
