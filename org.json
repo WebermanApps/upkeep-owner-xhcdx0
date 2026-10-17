@@ -199,7 +199,7 @@
    "job": "Hiring, training, certs, profiles, performance.",
    "facts": [
     "TEST techs: Dana Whitmore, Luis Ferreira, Keon Atwater",
-    "Required certs: EPA 608, RRP, OSHA 10, CPR"
+    "Required certs (Max decided Oct 12): EPA 608, Lead-Safe RRP, OSHA 10, CPR. Bonus: NATE/CSIA. EPA 608 type still open."
    ],
    "shows": [
     "Tech profiles and cert status",
@@ -229,9 +229,9 @@
       "basis": "TEST"
      },
      {
-      "label": "Required certs",
+      "label": "Required certs: EPA 608, Lead-Safe RRP, OSHA 10, CPR (bonus: NATE/CSIA; EPA 608 type still open)",
       "value": "4",
-      "basis": "Draft"
+      "basis": "Decided"
      }
     ]
    },
@@ -623,7 +623,7 @@
     "basis": "TEST"
    },
    {
-    "label": "MRR from plan mix",
+    "label": "MRR from plan mix (base plans only)",
     "value": "$15,814",
     "basis": "TEST"
    },

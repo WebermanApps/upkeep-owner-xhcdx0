@@ -105,3 +105,4 @@ details[open]>summary .u-chev{transform:rotate(-135deg);margin-top:4px}
 @media(min-width:700px){.s-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #s-real .s-ret{margin-top:12px}
 .u-test{display:inline-block;font:600 10px var(--u-body);letter-spacing:.06em;text-transform:uppercase;color:var(--u-member);border:1px solid var(--u-member);padding:0 5px;margin-right:6px}
+.u-basis.b-decided{color:var(--u-green)}
