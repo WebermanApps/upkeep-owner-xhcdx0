@@ -3,6 +3,7 @@
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 var ROOT=document.documentElement.getAttribute('data-root')||'';
 var $=function(i){return document.getElementById(i)};
+function blk(i){var e=document.getElementById(i);if(!e)return null;try{return JSON.parse(e.textContent)}catch(x){console.warn(i,x);return null}}
 function sURL(id){return ROOT+'s/?id='+encodeURIComponent(id)}
 function basis(b){return '<span class="u-basis b-'+esc(String(b||'').toLowerCase())+'">'+esc(b||'')+'</span>'}
 function chip(x){var o=x.status==='real'?(x.owner_agent||x.agent||x.name):(x.owner_agent||'');
@@ -32,9 +33,9 @@ function hub(d){
    return '<div class="oc-g"><div class="oc-gh">'+esc(x.name)+' <span>'+ss.length+'</span></div><div class="oc-gl">'+ss.map(function(s){return ocCard(s,{role:s.job})}).join('')+'</div></div>'}).join('')+'</div>'+
   '<div class="oc-shared"><h3>Shared from Max\'s team</h3><div class="oc-srow">'+d.shared.map(function(x){return ocCard({name:x.name,status:'real'},{url:x.url,kind:'lead',role:'Shared agent',tag:'Shared',noOwner:1})}).join('')+'</div></div>';
  var cs=function(n){var r=$('u-car');r.scrollBy({left:n*r.clientWidth*0.85,behavior:'smooth'})};$('u-prev').onclick=function(){cs(-1)};$('u-next').onclick=function(){cs(1)};
- fetch(ROOT+'requests.json?t='+Date.now()).then(function(r){return r.json()}).then(function(q){var it=q.items||[],o=it.filter(function(i){return i.status!=='verified'}).length;
+ (function(q){if(!q)return;var it=q.items||[],o=it.filter(function(i){return i.status!=='verified'}).length;
   $('u-req-c').textContent=(q.placeholder?'Placeholder · ':'')+o+' open';
-  if(it.length)$('u-req-l').innerHTML=it.map(function(i){return '<li>'+esc(i.text)+' · '+esc(i.owner||'')+' · '+esc(i.status||'Open')+'</li>'}).join('')}).catch(function(){});
+  if(it.length)$('u-req-l').innerHTML=it.map(function(i){return '<li>'+esc(i.text)+' · '+esc(i.owner||'')+' · '+esc(i.status||'Open')+'</li>'}).join('')})(blk('requests-data'));
  fetch('https://webermanapps.github.io/style-swipe/kit/deck-counts.json?t='+Date.now()).then(function(r){return r.json()}).then(function(c){
   var a=(c.agents||{})[d.deck_agent]||{},dd=a.deck_days||{},keys=Object.keys(dd).sort(),today=new Date().toLocaleDateString('en-CA',{timeZone:c.tz||undefined});
   $('u-dk-n').textContent=dd[today]||0;
@@ -61,5 +62,5 @@ function section(d){
   '<div class="u-card ph k-'+(l.k||'owner')+'">'+tag+'<span class="u-nm">'+esc(l.t)+'</span><span class="u-role">Link coming from UpKeep</span></div>'}).join(''):'<p class="u-sub">No linked tools yet.</p>';
  if(x.status==='real'&&x.url)$('s-real').innerHTML='<a class="s-ret" href="'+esc(x.url)+'">Open '+esc(x.agent||x.name)+'\'s live board →</a>';
 }
-fetch(ROOT+'org.json?t='+Date.now()).then(function(r){return r.json()}).then(function(d){if($('s-bn'))section(d);else hub(d)}).catch(function(e){console.warn('org.json',e)});
+var D=blk('org-data');if(D){if($('s-bn'))section(D);else hub(D)}
 })();
