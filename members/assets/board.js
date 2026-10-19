@@ -142,7 +142,47 @@ function renderCommon(d){
   r.forEach(function(x){var rw=el('div','uk-rt-row');rw.append(el('b',null,x.short||x.name),el('span',null,(x.short_time||x.schedule_plain||'')+(x.status==='paused'?' \u00b7 Paused':'')));list.appendChild(rw)})}
  var a=$('uk-asof');if(a&&d.updated_label)a.textContent='Built '+d.updated_label;
 }
-function render(d){if(!d||typeof d!=='object')return;TAG=!!d.item_tag;var k=d.board&&d.board.kind;if(k==='ethan-cc')renderEthan(d);else renderSub(d);renderCommon(d)}
+/* ---- Document Center (uk6). Renders the INLINE docs list from #board-data (encrypted with the page by the page lock).
+   No fetch and no crypto here: links and thumbnails use Security's documented markup only (a[data-enc-file], a[data-enc-download],
+   img[data-enc-img]); Security's enc_file_viewer.js, once inlined in the locked page, opens and decrypts them. Same look and
+   classes as the kit Document Center (projects.css op-fold / op-card). Paths must be files/<12 a-z0-9>.enc, else the item is skipped. */
+var DOC_MAX=6,ENCP=/^files\/[a-z0-9]{12}\.enc$/,DKIND={pdf:'PDF',ppt:'PPT',doc:'DOC',xls:'XLS',img:'IMG',other:'FILE'},DBADGE={PDF:'pdf',PPT:'ppt',DOC:'doc',XLS:'xls',IMG:'img',FILE:'other',DECK:'ppt',MD:'doc',HTML:'doc'};
+var DI={open:['M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5'],dl:['M12 4v11M7 10l5 5 5-5M5 20h14'],
+ doc:['M7 3h7l5 5v12a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z','M14 3v5h5M9 13h6M9 17h6'],chev:['M6 9l6 6 6-6'],prev:['M15 6l-6 6 6 6'],next:['M9 6l6 6-6 6']};
+function dsvg(k){var s=document.createElementNS(NS,'svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');DI[k].forEach(function(x){var q=document.createElementNS(NS,'path');q.setAttribute('d',x);s.appendChild(q)});return s}
+function encRef(r){return r&&typeof r.path==='string'&&ENCP.test(r.path)?r.path:null}
+function dbadge(p){var t=String(p.type||'').toUpperCase();return Object.prototype.hasOwnProperty.call(DBADGE,t)?t:DKIND[dkind(p)]}
+function dkind(p){var u=String(p.type||'').toUpperCase();if(Object.prototype.hasOwnProperty.call(DBADGE,u))return DBADGE[u];var t=String(p.type||'').toLowerCase();if(/^pdf$/.test(t))return 'pdf';if(/^(pptx?|odp|key)$/.test(t))return 'ppt';if(/^(docx?|odt|rtf)$/.test(t))return 'doc';if(/^(xlsx?|ods)$/.test(t))return 'xls';return 'other'}
+function ddate(p){var s=String(p.date||'');var d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(s)?s+'T12:00:00':(s||p.updated||''));if(isNaN(d))return '';
+ var o={month:'short',day:'numeric'};if(d.getFullYear()!==new Date().getFullYear())o.year='numeric';return (s?'':'Updated ')+d.toLocaleDateString('en-US',o)}
+function dact(p,kind){var ref=kind==='open'?(encRef(p.preview)||encRef(p.file)):encRef(p.file),lab=kind==='open'?'Open':'Download';
+ var a=el('a','op-btn'+(kind==='open'?' op-btn--open':''));a.href='#';a.setAttribute('role','button');a.setAttribute('aria-label',lab+' '+p.title);
+ a.append(dsvg(kind==='open'?'open':'dl'),el('span',null,lab));if(ref)a.setAttribute('data-enc-file',ref);if(kind!=='open')a.setAttribute('data-enc-download','');return a}
+function dcard(p,i){var c=el('article','op-card op-k-'+dkind(p));c.setAttribute('aria-label',p.title);c.setAttribute('role','listitem');
+ var th=el('div','op-thumb'),img=el('img'),ph=el('div','op-ph',dbadge(p));img.alt='';img.decoding='async';th.append(img,ph,el('span','op-type',dbadge(p)));c.appendChild(th);
+ var tp=encRef(p.thumb);if(tp){img.addEventListener('load',function(){img.classList.add('on')});img.setAttribute('data-enc-img',tp)}else ph.classList.add('done');
+ var bd=el('div','op-body');bd.appendChild(el('h3','op-t',p.title));if(typeof p.label==='string'&&p.label){var lc=el('p','uk-doc-lbl');lc.appendChild(chip('warn',p.label.slice(0,40)));bd.appendChild(lc)}bd.appendChild(el('p','op-meta',ddate(p)+(p.slides?' \u00b7 '+(+p.slides)+' slides':'')));var bs=el('div','op-btns');bs.append(dact(p,'open'),dact(p,'dl'));bd.appendChild(bs);
+ var mb=el('button','op-more-btn'),dt=el('div','op-details');mb.type='button';mb.append(el('span',null,'Tell me more'),dsvg('chev'));dt.id='op-d-'+i;dt.hidden=true;mb.setAttribute('aria-expanded','false');mb.setAttribute('aria-controls',dt.id);
+ if(p.desc)dt.appendChild(el('p','op-desc',String(p.desc).slice(0,400)));var bits=[];if(p.pages&&!p.slides)bits.push(p.pages+(dkind(p)==='ppt'?' slides':' pages'));if(p.size)bits.push(Math.max(1,Math.round(p.size/1024))+' KB');if(p.agent)bits.push('Pinned by '+p.agent);
+ if(bits.length)dt.appendChild(el('small',null,bits.join(' \u00b7 ')));if(!dt.childNodes.length)dt.appendChild(el('p',null,'No extra details yet.'));
+ mb.addEventListener('click',function(){var x=mb.getAttribute('aria-expanded')!=='true';mb.setAttribute('aria-expanded',String(x));dt.hidden=!x;mb.firstChild.textContent=x?'Show less':'Tell me more'});
+ bd.append(mb,dt);c.appendChild(bd);return c}
+function renderDocs(d){var sec=document.querySelector('[data-uk-docs]');if(!sec)return;var dc=d.docs||{},own=String(dc.owner||'This agent');
+ var list=(Array.isArray(dc.items)?dc.items:[]).filter(function(p){return p&&typeof p.title==='string'&&p.title&&!p.hidden&&encRef(p.file)}).map(function(p){p.title=p.title.slice(0,80);return p})
+  .sort(function(x,y){return (Date.parse(y.updated)||0)-(Date.parse(x.updated)||0)});
+ clear(sec);var fd=el('details','op-fold'),sm=el('summary','op-fold-sum'),fb=el('div','op-fold-body');fd.id='mw-docs-fold';
+ sm.append(el('span','op-fold-t','Document Center'),el('span','op-fold-n','('+list.length+')'),el('span','op-chev'));fd.append(sm,fb);sec.appendChild(fd);
+ var hd=el('div','op-head'),tt=el('div','op-ttl'),nav=el('div','op-nav'),pv=el('button'),nx=el('button');tt.appendChild(el('p','op-sub',own+'\u2019s working documents'));
+ pv.type=nx.type='button';pv.setAttribute('aria-label','Previous documents');nx.setAttribute('aria-label','Next documents');pv.appendChild(dsvg('prev'));nx.appendChild(dsvg('next'));nav.append(pv,nx);hd.append(tt,nav);fb.appendChild(hd);
+ if(!list.length){var em=el('div','op-empty op-empty--box');em.append(dsvg('doc'),el('p',null,'No documents yet. '+own+' pins PDFs, slides and docs here.'));fb.appendChild(em);nav.hidden=true;return}
+ if(!(window.mwEncFile&&typeof window.mwEncFile.open==='function'))fb.appendChild(el('p','op-sub uk-docs-wait','Documents open here once Security\u2019s file viewer is added to this page.'));
+ var tr=el('div','op-track');tr.setAttribute('role','list');tr.setAttribute('aria-label','Document Center');list.slice(0,DOC_MAX).forEach(function(p,i){tr.appendChild(dcard(p,i))});fb.appendChild(tr);
+ function upd(){pv.disabled=tr.scrollLeft<4;nx.disabled=tr.scrollLeft+tr.clientWidth>=tr.scrollWidth-4;nav.style.visibility=tr.scrollWidth>tr.clientWidth+4?'visible':'hidden'}
+ function step(k){var c=tr.querySelector('.op-card');tr.scrollBy({left:k*(c?c.getBoundingClientRect().width+12:tr.clientWidth),behavior:'smooth'})}
+ pv.addEventListener('click',function(){step(-1)});nx.addEventListener('click',function(){step(1)});tr.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);fd.addEventListener('toggle',function(){if(fd.open)setTimeout(upd,0)});setTimeout(upd,50);
+ if(list.length>DOC_MAX){var od=el('details','op-older'),os=el('summary'),ul=el('ul','op-list');os.append(el('span',null,'More ('+(list.length-DOC_MAX)+')'),dsvg('chev'));od.appendChild(os);
+  list.slice(DOC_MAX).forEach(function(p){var li=el('li','op-k-'+dkind(p)),t=el('div','op-lt');t.append(el('b',null,p.title),el('span','op-meta',dbadge(p)+' \u00b7 '+ddate(p)));li.append(t,dact(p,'open'),dact(p,'dl'));ul.appendChild(li)});od.appendChild(ul);fb.appendChild(od)}}
+function render(d){if(!d||typeof d!=='object')return;TAG=!!d.item_tag;var k=d.board&&d.board.kind;if(k==='ethan-cc')renderEthan(d);else renderSub(d);renderCommon(d);renderDocs(d)}
 function share(btn,ok){var u=location.href.split('#')[0],t=document.title;
  if(navigator.share){navigator.share({title:t,url:u}).catch(function(){});return}
  try{navigator.clipboard.writeText(u).then(function(){if(ok)ok.textContent='Link copied'},function(){if(ok)ok.textContent=u})}catch(_){if(ok)ok.textContent=u}

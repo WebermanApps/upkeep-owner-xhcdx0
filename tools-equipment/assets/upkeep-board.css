@@ -281,3 +281,8 @@ a.uk-tile:hover,a.uk-tile:focus-visible{transform:translateY(-2px);box-shadow:0 
  .uk-wc-more>summary::-webkit-details-marker{display:none}.uk-wc-more ul{padding-top:0}
  .uk-wc-more[open]>summary{color:var(--uk-mute)}
 }
+/* ===== uk6 Document Center (kit projects.css look; inline docs list) ===== */
+#mw-mid>.uk-docs-root{margin:6px 0 22px}
+#mw-mid>.uk-docs-root #mw-projects{margin:0}
+.uk-docs-wait{margin:0 0 10px;font-size:13.5px;color:var(--uk-mute)}
+.uk-doc-lbl{margin:2px 0 4px}.uk-doc-lbl .uk-chip{font-size:11px}
