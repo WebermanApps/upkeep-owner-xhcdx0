@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """UpKeep Operator Dash data tool. The data lives ONLY inside the locked pages as
-<script type="application/json" id="..."> blocks (org-data, requests-data, todo-data), in BOTH
-index.html and s/index.html. Never write plaintext into the repo.
+<script type="application/json" id="..."> blocks (org-data, requests-data, todo-data), in
+s/index.html (the legacy section pages; since Oct 19 2026 the root index.html is the Gen 2 board). Never write plaintext into the repo.
 
 Usage (run from anywhere):
   update_data.py show <block>               print one block's JSON (data is TEST/Forecast; keep output private)
@@ -10,11 +10,11 @@ Usage (run from anywhere):
 Blocks: org-data, requests-data, todo-data.
 Flow: copy locked pages into a mkdir -m 700 dir under /workspace, unlock there, edit, relock there,
 copy the locked pages back, run lock_pages.py check on the repo, shred -u the temp copies.
-Commit/push is left to the caller (git add index.html s/index.html only)."""
+Commit/push is left to the caller (git add s/index.html only)."""
 import json, os, re, shutil, subprocess, sys, tempfile
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PL = "/workspace/security/pagelock/lock_pages.py"
-PAGES = ["index.html", "s/index.html"]
+PAGES = ["s/index.html"]  # Oct 19 2026: root index.html is now the Gen 2 Ethan board (board-data block, no org-data)
 BLOCKS = ["org-data", "requests-data", "todo-data"]
 TMPROOT = "/workspace/wt/upkeep-owner-tmp"
 

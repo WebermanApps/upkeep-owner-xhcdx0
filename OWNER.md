@@ -2,6 +2,15 @@
 
 Run by Ethan (UpKeep Operator, agent 6cc83bb6), who reports to UpKeep. Formerly "UpKeep Operator Dash". Live: https://webermanapps.github.io/upkeep-owner-xhcdx0/
 
+## Gen 2 boards (Oct 19 2026)
+The site root is now Ethan's UpKeep Command Center (Gen 2, built by Branding/Swatch): `index.html` + `assets/` (upkeep-board.css, board.js, icons).
+Agent tiles open the sub-boards `members/`, `technicians/`, `tools-equipment/`, `scheduling/` (each `index.html` + `robots.txt` + `assets/`).
+The Security tile is a non-link "Coming Soon" tile until the UpKeep Security board is live (add `"href"` to its entry in `board-data` then).
+All board data is the inline `board-data` block inside each locked page (Temp Data). Sub-board back links go to this site's root.
+Removed with the old hub: `ucc.css`, `ucc.js`, root `ethan-avatar.png` (now `assets/ethan-avatar.png`). The legacy section pages `s/`
+(with `org.css`, `org.js`, root `smart-upkeep-mark.png`) stay; `tools/update_data.py` now edits only `s/index.html`.
+The layout notes below describe the pre-Oct 19 hub.
+
 ## Layout (matches Apps Home one for one, Oct 17 2026)
 `index.html` (locked) renders in this order: header bar (Smart Upkeep mark, UPKEEP COMMAND CENTER, Max Weberman, Updated time from org-data) ->
 title + subtitle -> top band of three (Requested changes in Apps Home's verified-strip slot `<!--mw-vc--> details#vc-strip.vc` from requests-data;
@@ -47,7 +56,7 @@ It never writes plaintext into the repo. Sync with `git pull --rebase --autostas
 
 ## Rules
 - Data is TEST / Forecast / Draft / Planned / Decided. Zero real members; never present it as traction; never mix TEST and Forecast in one number.
-- Light mode, Khand + Hind, no emoji, no Thai or Thailand references (R110). Back links use the kit `data-mw-back` (R104).
+- Light mode, Khand + Hind, no emoji, no home-country or locale references (R110). Back links use the kit `data-mw-back` (R104).
 - Don't edit kit files, submit.js or auth_filter.py. Never publish an unlocked page.
 
 ## History note
