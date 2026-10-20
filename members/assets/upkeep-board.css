@@ -316,3 +316,113 @@ body.uk9 #mw-mid p.uk-banner,body.uk9 #mw-mid p.uk-sub,body.uk9 #mw-mid p.uk-qui
 body.uk9 #mw-mid p.uk-banner{display:flex}
 .uk-cat td{white-space:nowrap}
 @media(min-width:900px){.uk-split{grid-template-columns:minmax(0,1.75fr) minmax(0,1fr)}}
+/* ================= uk10 big screen (Swatch, Oct 19 2026, 7:50 PM ICT). Layout only; under 1800px nothing changes.
+   Primary target 3440x1440 (checked 1920x1080, 2560x1080, 3840x1600): ~5% side margins, content fills the width,
+   fold-downs side by side in 2-3 columns, long text capped inside cards, type one step up from 2800px. */
+@media(min-width:1800px){
+ .uk-wrap,#mw-mid.mw-middle{width:calc(100% - 10vw)!important}
+ /* header: alerts across, To-Do and Documents side by side */
+ .uk-hd-blocks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap) 20px;align-items:start}
+ .uk-hd-blocks>#uk-alerts{grid-column:1/-1}
+ /* sections: grid; the big working views stay full width, the rest pair up */
+ #uk-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap) 20px;align-items:start}
+ #uk-sections>*{min-width:0}
+ #uk-sections>#sec-catalog,#uk-sections>#sec-calendar,#uk-sections>#sec-schedule,#uk-sections>#sec-comms,#uk-sections>.uk-needs{grid-column:1/-1}
+ body[data-board=members] #uk-sections{grid-template-columns:repeat(3,minmax(0,1fr))}
+ /* footer: Ping Record and Routines side by side */
+ #uk-ft .uk-wrap{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);column-gap:20px;align-items:start}
+ #uk-ft .uk-wrap>*{min-width:0}
+ #uk-ft .uk-wrap>#uk-pings{grid-column:1}#uk-ft .uk-wrap>#routines{grid-column:2;margin-top:0}
+ #uk-ft .uk-wrap>.uk-ft-div,#uk-ft .uk-wrap>.uk-built{grid-column:1/-1}
+ /* long text lines capped inside cards */
+ body.uk9 #mw-mid p.uk-sub,body.uk9 #mw-mid p.uk-note,body.uk9 #mw-mid p.uk-quiet,body.uk9 #uk-ft p.uk-sub,body.uk9 #uk-ft p.uk-quiet,body.uk9 .uk-fold-b p{max-width:110ch!important}
+}
+@media(min-width:2400px){
+ .uk-hd-blocks{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .uk-hd-blocks>#uk-alerts{grid-column:auto}
+ body[data-board=tools-equipment] #uk-sections,body[data-board=scheduling] #uk-sections{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(min-width:2800px){
+ :root{--h1:30px;--h2:26px;--h3:21px;--b:17px;--s:15px;--xs:13.5px;--gap:14px}
+ .uk-hd-title{font-size:40px!important}
+}
+
+/* ===== uk11 (Swatch, Oct 19 2026 evening): deck picks from Member Catalog Polish, Board Rules Fine Tuning, Scheduling Board Details,
+   Header Fine Tuning, Footer Fine Tuning. Light mode only; phone (390) and wide screen (3440) checked. ===== */
+/* Board Rules 03 B: firmer beige border */
+:root{--line:#d6ccba;--line2:#e9e2d5}
+/* Board Rules 05 (skip, "I like uniform design", Swatch call): one comfortable body step for reading text */
+body.uk11 .uk-cc p,body.uk11 .uk-pnote p,body.uk11 .uk-docdesc,body.uk11 .uk-vrow-b p{font-size:var(--b)}
+/* Board Rules 04 (skip, Swatch call): section headings stay normal-case Khand; plan group rule normal case too */
+body.uk11 .uk-grp-h td{font:700 var(--h3)/1.1 Khand,sans-serif!important;letter-spacing:0;text-transform:none;padding:14px 10px 4px!important}
+body.uk11 .uk-grp-h td.g-complete{color:var(--j);border-bottom-color:var(--j)!important}body.uk11 .uk-grp-h td.g-plus{color:var(--l);border-bottom-color:var(--l)!important}body.uk11 .uk-grp-h td.g-essentials{color:var(--t);border-bottom-color:var(--t)!important}
+/* Board Rules 09 B: counts and totals in Hind numerals */
+body.uk11 .uk-cell .uk-v,body.uk11 .uk-stats dd,body.uk11 .uk-ntiles b,body.uk11 .uk-wx-t{font-family:Hind,sans-serif!important;font-weight:600!important;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+body.uk11 .uk-ntiles b{font-size:26px!important;line-height:1.05!important}
+/* Board Rules 08 B: thin coloured left edge on cards; Max's subtle shine: a top-edge highlight */
+body.uk11 .uk-tc{position:relative;border-left:3px solid var(--c,var(--t))}
+body.uk11 .uk-cardrow>.uk-tc:nth-child(3n+1){--c:var(--l)}body.uk11 .uk-cardrow>.uk-tc:nth-child(3n+2){--c:var(--t)}body.uk11 .uk-cardrow>.uk-tc:nth-child(3n){--c:var(--j)}
+body.uk11 .uk-tc::before,body.uk11 .uk-fold>summary::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);pointer-events:none}
+body.uk11 .uk-fold>summary{position:relative}
+/* Board Rules 01 A: chevron at the right end on every fold, plain folds included */
+body.uk11 .uk-fold.is-plain>summary{padding-left:0;background:none}body.uk11 .uk-fold.is-plain>.uk-fold-b{padding-left:0}
+body.uk11 .uk-fold.is-plain .uk-fold-tw+.uk-fold-s{margin-left:auto}
+/* Board Rules 10 A: section spacing matches the header folds */
+body.uk11 #uk-sections,body.uk11 .uk-hd-blocks{gap:var(--gap)}
+/* Header 01 A: medium mark, about title plus subtitle */
+body.uk11 .uk-hd-mark{width:64px;height:64px}body.uk11 .uk-hd-mark img{width:50px;height:50px}
+@media(max-width:600px){body.uk11 .uk-hd-mark{width:52px;height:52px}body.uk11 .uk-hd-mark img{width:40px;height:40px}}
+/* Header 07 B: narrow document list, wide preview */
+@media(min-width:900px){body.uk11 .uk-docs-split{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}}
+/* Header 06 B: ticked to-dos in a closed Done fold */
+.uk-done{margin-top:8px;border-top:1px solid var(--line2)}.uk-done>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--mute);list-style:none}.uk-done>summary::-webkit-details-marker{display:none}
+.uk-done>summary::after{content:"";width:8px;height:8px;margin-left:auto;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(45deg)}.uk-done[open]>summary::after{transform:rotate(225deg)}
+.uk-done .uk-todo li{color:var(--mute)}.uk-done .uk-todo b{text-decoration:line-through;font-weight:500}
+/* Header 08 A + Rules 06 A: one slim bar (mark, title, share) once the header scrolls away */
+.uk-slim{position:fixed;left:0;right:0;top:0;z-index:50;background:#FAF6EE;border-bottom:1px solid var(--line);transform:translateY(-110%);transition:transform .2s ease;box-shadow:0 1px 0 rgba(255,255,255,.9) inset}
+.uk-slim.on{transform:none}.uk-slim-w{display:flex;align-items:center;gap:10px;min-height:52px}.uk-slim-w b{font:700 20px/1.1 Khand,sans-serif;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uk-slim-w img{display:block;flex:none}.uk-slim .uk-share-ic{width:44px;height:44px}
+@media(prefers-reduced-motion:reduce){.uk-slim{transition:none}}
+/* Member Catalog 01 (skip, "it should show something", Swatch call): cream fill plus a terracotta left edge */
+body.uk11 .uk-mrow.is-sel{background:var(--cream);box-shadow:inset 3px 0 0 var(--t)}
+/* Member Catalog 02 A: sort by clicking a column header */
+.uk-sortb{display:inline-flex;align-items:center;gap:4px;min-height:36px;padding:0;border:0;background:none;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer}
+.uk-sorti{width:0;height:0;border:4px solid transparent;border-top-color:#b9b0a1;margin-top:4px}
+th.is-sort .uk-sortb{color:var(--ink)}th.is-sort .uk-sorti{border-top-color:var(--l)}th[aria-sort=descending] .uk-sorti{transform:rotate(180deg);margin-top:-4px}
+/* Member Catalog 03 A: small terracotta dot beside the name */
+.uk-odot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--t);margin-left:8px;flex:none;vertical-align:middle}
+.uk-mname{white-space:nowrap}
+/* Member Catalog 06 B: one quiet line plus Clear filters */
+.uk-td-empty .uk-clearf{margin-left:12px;min-height:36px}
+/* Member Catalog 10 A: X at the top right of the panel */
+.uk-detail{position:relative}.uk-dx{position:absolute;top:8px;right:8px;z-index:2;width:44px;height:44px;border:1px solid var(--line);background:#fff;font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.uk-dx:hover{background:var(--cream)}.uk-detail.is-empty{padding:28px 16px;text-align:center;background:var(--cream)}
+/* Member Catalog 08 A: three thumbnails in a row */
+.uk-ph3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 6px}.uk-ph3 figure{margin:0;min-width:0}.uk-ph3 svg{display:block;width:100%;height:auto;border:1px solid var(--line2)}.uk-ph3 figcaption{font-size:var(--xs);color:var(--mute)}
+/* Member Catalog 09 A: date and tech, tap for the note */
+.uk-vrows{border-top:1px solid var(--line2);margin-top:4px}.uk-vrow{border-bottom:1px solid var(--line2)}
+.uk-vrow>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;min-height:44px;flex-wrap:wrap}.uk-vrow>summary::-webkit-details-marker{display:none}
+.uk-vrow>summary b{font-weight:600}.uk-vrow>summary .uk-chev{margin-left:auto}.uk-vrow[open]>summary .uk-chev{transform:rotate(225deg) translate(-2px,-2px)}
+.uk-vrow-b{padding:0 0 10px}.uk-vrow-b p{margin:4px 0 0;color:var(--ink2)}
+/* Scheduling 01 B edge by visit type (legend above); 02 B jungle when full; 03 A cream today column; 04 B faint hour lines; 05 A step names */
+body.uk11 .uk-fill.is-full i.on{background:var(--j);border-color:var(--j)}
+.uk-fillr{display:inline-flex;align-items:center;gap:4px}.uk-fillr small{font-size:10px;color:var(--mute);width:24px}
+body.uk11 .uk-wcol.is-today{background:var(--cream);box-shadow:none}
+.uk-hr{display:flex;align-items:center;gap:6px;font-size:10px;color:#a39a8b;margin:2px 0 0;letter-spacing:.02em}.uk-hr::after{content:"";flex:1;border-top:1px solid #efe9df}
+.uk-trk{align-items:center}.uk-trk-l{margin-left:6px;font-size:var(--xs);font-weight:600;color:var(--l)}
+/* Scheduling 08 A: five equal days, phone too */
+body.uk11 .uk-wx{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px}
+@media(max-width:600px){body.uk11 .uk-wx div{padding:6px 4px;font-size:var(--xs)}body.uk11 .uk-wx-t{font-size:16px!important}body.uk11 .uk-flag2{font-size:10px}}
+/* Footer 04 (skip, Swatch call): cream band that mirrors the header */
+body.uk11 .uk-ft{background:var(--cream)}
+/* Footer 02 B: Machan winks beside the credit on hover (Machan symbol sits beside the words, 01 note) */
+.uk-built-a .mw-machan-mark{transition:transform .25s ease}.uk-wink-l{opacity:0}
+.uk-built-a:hover .mw-machan-mark,.uk-built-a:focus-visible .mw-machan-mark{transform:rotate(-8deg)}
+.uk-built-a:hover .uk-eye-r,.uk-built-a:focus-visible .uk-eye-r{opacity:0}.uk-built-a:hover .uk-wink-l,.uk-built-a:focus-visible .uk-wink-l{opacity:1}
+body.uk11 .uk-built-a:hover{text-decoration:none}
+@media(prefers-reduced-motion:reduce){.uk-built-a .mw-machan-mark{transition:none}.uk-built-a:hover .mw-machan-mark{transform:none}}
+/* Footer 06 A: a paused routine fades its whole row; 05 (Swatch call) jungle when on */
+.uk-rtl li.is-paused{opacity:.55}
+/* Fold opening (Rules 02 A) is a 200ms JS slide; nothing pulses (Header 03 A) */
+/* Rules 01 A on phone: the chevron stays at the far right of the title row while the one-line summary wraps below */
+@media(max-width:600px){body.uk11 .uk-fold>summary>.uk-chev{order:2;margin-left:auto!important}body.uk11 .uk-fold>summary>.uk-fold-tw{order:1}}
