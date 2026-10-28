@@ -86,3 +86,10 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Ping Log (l8sm55): always-expanded compact table · team tabs · 5 rows before scroll · quiet chevron.
 - Still waiting: Color Tone 7bj9b4, Appearance b54c65, Marketing Tile 18vb3b, Tools remake picks 9o9eqp.
 - Dark shell + light tiles unchanged. Data test-2026-10-19c. Relocked.
+
+## uk11i (Oct 28 2026 night, Machan): light-warm / soft-slate shell bake
+- Shell r8tml5: light-warm cream/soft-slate page chrome (NOT deep dark); soft slate header middle; high-contrast white tiles; plain light-warm over parchment; neither mist/lagoon.
+- Visual 9z4q38: softer shell blend · inset cream chrome · stronger left accents · soft lift · moderate titles · slight internal padding; keep MacBook 6-fit (z7cble tight beats roomier).
+- Function z7cble: Header Open only · Early KPI placeholders on Marketing · Ping Log keeps important metrics (no collapse-to-3) · Needs only when items exist (no empty Needs headers).
+- Left open / not baked: Light Dashboard bozbb8, Color Tone 7bj9b4, Appearance b54c65, Marketing 18vb3b, Tools 9o9eqp.
+- Tile content from uk11h (v7bucs/u3tf3p/hqq4gd/l8sm55 + Tools vans+shop) preserved.

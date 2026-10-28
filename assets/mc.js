@@ -1,4 +1,4 @@
-/* uk11h UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
+/* uk11i UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
    tile content per Oct 28 deck locks (Members/Technicians/Scheduling/Ping Log) +
    Tools vans+shop freewrite; Marketing summary. UpKeep Develop / Machan Oct 28 2026.
    Reads only the inline #mc-data block (TEST snapshot). Clears legacy ukcc-layout-uk11f. */
@@ -14,10 +14,11 @@ function rows(list,lim){var u=el('ul','mc-rows');(list||[]).slice(0,lim||99).for
 function moreHint(n,shown){if(n>shown){var p=el('p','mc-more','+ '+(n-shown)+' more');return p}return null}
 function fold(h,n,sum,body){var d=el('details','mc-fold'),s=el('summary');s.append(el('b',null,h+(n!=null?' ('+n+')':'')),el('span',null,sum||''));d.appendChild(s);var b=el('div');d.appendChild(b);if(body)body(b);return d}
 function ro(stats){var g=el('div','mc-ro');stats.forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));if(s[2])c.appendChild(el('small',null,s[2]));g.appendChild(c)});return g}
-function needBand(t,opts){opts=opts||{};var nd=el('div','mc-need');nd.id='need-'+t.id;var h=el('h3',null,'Needs Machan');nd.appendChild(h);
- if(t.needs&&t.needs.length){var u=el('ul');t.needs.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);(x.acts||[]).forEach(function(a){li.appendChild(stub(a))});u.appendChild(li)});nd.appendChild(u)}
- else{nd.className='mc-need is-clear';h.textContent='Nothing needs Machan'}
- if(opts.hide){nd.hidden=true;nd.setAttribute('aria-hidden','true')}
+function needBand(t,opts){opts=opts||{};var nd=el('div','mc-need');nd.id='need-'+t.id;
+ /* z7cble note: Needs only when items exist — no empty Needs headers on every section; no global header Needs */
+ if(!(t.needs&&t.needs.length)||opts.hide){nd.hidden=true;nd.setAttribute('aria-hidden','true');return nd}
+ var h=el('h3',null,'Needs Machan');nd.appendChild(h);
+ var u=el('ul');t.needs.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);(x.acts||[]).forEach(function(a){li.appendChild(stub(a))});u.appendChild(li)});nd.appendChild(u);
  return nd}
 function sortable(t,cols,data,rowFn,init){var st={k:init||null,d:1},tb=el('tbody'),th=el('thead'),tr=el('tr');
  cols.forEach(function(c){var x=el('th');var b=el('button',null,c[0]);b.type='button';x.appendChild(b);x.setAttribute('aria-sort','none');b.addEventListener('click',function(){if(st.k===c[1])st.d=-st.d;else{st.k=c[1];st.d=1}draw()});x._k=c[1];tr.appendChild(x)});th.appendChild(tr);t.append(th,tb);
@@ -79,9 +80,9 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  else shop.appendChild(el('p','mc-quiet','No shop lows (TEST)'));
  b.appendChild(shop)};
 /* Marketing summary placeholder (18vb3b still open — keep summary only) */
-P.marketing=function(b){b.appendChild(el('p','mc-quiet','Marketing workspace coming soon.'));
- b.appendChild(el('p','mc-quiet','Campaigns, creatives, and channel status will land on their own dashboard. This tile stays a summary glance (TEST) — not wired yet.'));
- var g=el('div','mc-ro');[['Channels','—','soon'],['Campaigns','—','soon']].forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));c.appendChild(el('small',null,s[2]));g.appendChild(c)});b.appendChild(g)};
+P.marketing=function(b){b.appendChild(el('p','mc-quiet','Early marketing KPIs (placeholders — not live).'));
+ b.appendChild(el('p','mc-quiet','Full campaigns board still open (18vb3b). This tile shows early metric slots only.'));
+ var g=el('div','mc-ro');[['Reach','—','early'],['CTR','—','early'],['Leads','—','early'],['Spend','—','early']].forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));c.appendChild(el('small',null,s[2]));g.appendChild(c)});b.appendChild(g)};
 /* Ping Log l8sm55: Always-expanded table · team tabs · 5 rows before scroll · quiet chevron */
 P.pinglog=function(b){var lk=el('p','mc-lock');lk.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';lk.appendChild(document.createTextNode('Locked log · UK-YYYYMMDD-NN · '));lk.appendChild(el('span','test','TEST'));
  var chev=el('button','mc-chev');chev.type='button';chev.setAttribute('aria-label','Ping Log panel');chev.innerHTML='&#9662;';chev.title='Always expanded';b.append(lk,chev);
@@ -100,7 +101,7 @@ P.status=function(b){b.appendChild(el('p','mc-quiet','Status lives in the header
 P.gear=P['team-tools-equipment'];
 /* ---------- build ---------- */
 var DEF=D.layout,G=$('mc-grid');var map={};
-DEF.forEach(function(p){var s=el('section','mc-p p-'+p.id+(p.team?' is-acc t-'+p.team:''));s.id='p-'+p.id;s.setAttribute('aria-labelledby','ph-'+p.id);var h=el('div','mc-ph'),h2=el('h2',null,p.title);h2.id='ph-'+p.id;h.appendChild(h2);if(p.badge)h.appendChild(el('span','test',p.badge));h.appendChild(el('span','sp'));if(p.href){var a=el('a',null,'Open board \u2192');a.href=p.href;h.appendChild(a)}s.appendChild(h);var bd=el('div','mc-pb');s.appendChild(bd);
+DEF.forEach(function(p){var s=el('section','mc-p p-'+p.id+(p.team?' is-acc t-'+p.team:''));s.id='p-'+p.id;s.setAttribute('aria-labelledby','ph-'+p.id);var h=el('div','mc-ph'),h2=el('h2',null,p.title);h2.id='ph-'+p.id;h.appendChild(h2);if(p.badge)h.appendChild(el('span','test',p.badge));h.appendChild(el('span','sp'));if(p.href){var a=el('a',null,'Open');a.href=p.href;a.setAttribute('aria-label','Open '+p.title+' board');h.appendChild(a)}s.appendChild(h);var bd=el('div','mc-pb');s.appendChild(bd);
  try{(P[p.id]||function(x){x.appendChild(el('p','mc-quiet','Panel not wired.'))})(bd)}catch(e){bd.appendChild(el('p','mc-quiet','Panel failed to render.'));setTimeout(function(){throw e})}
  G.appendChild(s);map[p.id]={el:s,def:p}});
 /* Morning Report ticker only — NO header Needs Machan band (freewrite) */
