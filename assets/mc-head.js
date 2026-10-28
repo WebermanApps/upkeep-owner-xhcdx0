@@ -1,4 +1,4 @@
-/* uk11f mission header (same on the Command Center and the 4 team boards): callsign, mission clock, status light bars, tab row.
+/* uk11f mission header (same on the Command Center and the 4 team boards): callsign, mission clock, status light bars, tab row. No layout reset (panels fixed).
    Reads the page's own board-data (field "mc"). UpKeep Develop, Oct 20 2026. */
 (function(){'use strict';
 var B=document.body,K=B.getAttribute('data-board')||'',ROOT=K==='ethan-cc'?'./':'../';
@@ -15,7 +15,6 @@ var L=el('div','mc-lights');L.setAttribute('aria-label','Status lights');
 var ck=el('div','mc-clock');var sim=el('span','sim',mc.sim||'');sim.title='TEST snapshot date';var ict=el('span','ict');var tb=el('b');tb.setAttribute('aria-live','off');ict.append(tb,document.createTextNode(' ICT'));ck.append(sim,ict);
 function tick(){var d=new Date(Date.now()+7*36e5);tb.textContent=('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2)+':'+('0'+d.getUTCSeconds()).slice(-2)}tick();setInterval(tick,1000);
 r.append(a,cs,L,ck);
-if(K==='ethan-cc'){var rs=el('button','mc-hbtn mc-hide-s','Reset layout');rs.type='button';rs.id='mc-reset';r.appendChild(rs)}
 h.appendChild(r);var nav=el('nav','mc-tabs');nav.setAttribute('aria-label','Boards');
 TABS.forEach(function(t){var x;if(t[2]===null){x=el('span','mc-tab is-soon t-'+t[0]);x.title='Coming Soon';x.append(el('i'),document.createTextNode(t[1]+' \u00b7 soon'))}else{x=el('a','mc-tab t-'+t[0]);x.href=ROOT+t[2]||'./';if(!t[2])x.href=ROOT;x.append(el('i'),document.createTextNode(t[1]));if(t[0]===K)x.setAttribute('aria-current','page')}nav.appendChild(x)});
 h.appendChild(nav);B.insertBefore(h,B.firstChild);

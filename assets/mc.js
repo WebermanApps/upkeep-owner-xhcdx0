@@ -1,6 +1,6 @@
-/* uk11f UpKeep Command Center: mission grid of movable, resizable panels (layout saved in localStorage on this device),
-   needs band, Morning Report ticker, status wall, locked Ping Log, every-item gear table (sortable). UpKeep Develop, Oct 20 2026.
-   Reads only the inline #mc-data block (TEST snapshot). Nothing here writes anywhere except localStorage (layout) . */
+/* uk11f UpKeep Command Center: fixed mission grid (no drag/resize); needs band, Morning Report ticker,
+   locked Ping Log, team panels + Marketing placeholder. UpKeep Develop / Machan Oct 28 2026.
+   Reads only the inline #mc-data block (TEST snapshot). Clears legacy ukcc-layout-uk11f; no layout writes. */
 (function(){'use strict';
 var D;try{D=JSON.parse(document.getElementById('mc-data').textContent)}catch(_){return}
 var LS='ukcc-layout-uk11f',COLS=12,ROWS=8,RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -50,6 +50,7 @@ P.gear=function(b){var cur='van',tabs=el('div','mc-ttabs'),box=el('div');[['van'
   if(cur==='van')sortable(t,[['Item','item'],['Van','van'],['Category','cat'],['On','on'],['Par','par'],['Min','min'],['Status','st']],D.gear.vans,function(x){var r=el('tr',x.st==='Below min'?'is-low':null);td(r,x.item);td(r,'Van '+x.van,'mono');td(r,x.cat);td(r,String(x.on),'num');td(r,String(x.par),'num');td(r,String(x.min),'num');td(r,chip(x.st,x.st==='Below min'?'warn':'ok'));return r},'st');
   else sortable(t,[['Item','item'],['Tech','td'],['Category','cat'],['Qty','qty'],['Condition','cond'],['Checked','checked']],D.gear.bags,function(x){var r=el('tr');td(r,x.item);td(r,'TD'+x.td,'mono');td(r,x.cat);td(r,x.qty,'mono');td(r,chip(x.cond,x.cond==='Good'?'ok':'warn'));td(r,x.checked,'mono');return r});
   box.appendChild(t);box.appendChild(el('p','mc-quiet','Click a column to sort. TEST sample pars.'))}draw()};
+P.marketing=function(b){b.appendChild(el('p','mc-quiet','Marketing workspace coming soon.'));b.appendChild(el('p','mc-quiet','Campaigns, creatives, and channel status will land here. Placeholder tile (TEST) — not wired to a board yet.'))};
 P.telemetry=function(b){var T=D.telemetry;b.appendChild(ro(T.stats));var sp=el('div','mc-spark'),mx=Math.max.apply(null,T.days.map(function(d){return d[1]}).concat([1]));T.days.forEach(function(d){var i=el('i');i.style.height=(d[1]/mx*100)+'%';i.title=d[0]+': '+d[1]+' pings';sp.appendChild(i)});b.appendChild(sp);b.appendChild(el('p','mc-quiet',T.note))};
 function team(t){return function(b){b.appendChild(ro(t.stats));
  var nd=el('div','mc-need');nd.id='need-'+t.id;var h=el('h3',null,'Needs Machan');nd.appendChild(h);
@@ -61,7 +62,7 @@ function team(t){return function(b){b.appendChild(ro(t.stats));
 var DEF=D.layout,G=$('mc-grid');var map={};D.teams.forEach(function(t){P['team-'+t.id]=team(t)});
 DEF.forEach(function(p){var s=el('section','mc-p p-'+p.id+(p.team?' is-acc t-'+p.team:''));s.id='p-'+p.id;s.setAttribute('aria-labelledby','ph-'+p.id);var h=el('div','mc-ph'),h2=el('h2',null,p.title);h2.id='ph-'+p.id;h.appendChild(h2);if(p.badge)h.appendChild(el('span','test',p.badge));h.appendChild(el('span','sp'));if(p.href){var a=el('a',null,'Open board \u2192');a.href=p.href;h.appendChild(a)}s.appendChild(h);var bd=el('div','mc-pb');s.appendChild(bd);
  try{P[p.id](bd)}catch(e){bd.appendChild(el('p','mc-quiet','Panel failed to render.'));setTimeout(function(){throw e})}
- ['br','bl'].forEach(function(k){var z=el('span','mc-rz '+k);z.setAttribute('aria-hidden','true');z._k=k;s.appendChild(z)});G.appendChild(s);map[p.id]={el:s,def:p}});
+ G.appendChild(s);map[p.id]={el:s,def:p}});
 /* band + ticker + morning report */
 (function(){var bn=$('mc-band'),n=0;D.teams.forEach(function(t){n+=t.needs.length});if(!n){bn.className='mc-band is-clear';bn.appendChild(el('b',null,'Nothing needs Machan.'))}
  else{bn.appendChild(el('b',null,'Needs Machan:'));D.teams.forEach(function(t){if(!t.needs.length)return;var a=el('a',null,t.name+' '+t.needs.length);a.href='#need-'+t.id;a.addEventListener('click',function(e){e.preventDefault();var x=$('need-'+t.id);x.scrollIntoView({behavior:RM?'auto':'smooth',block:'nearest'});x.closest('.mc-pb').scrollTop=x.offsetTop-40;x.animate&&!RM&&x.animate([{boxShadow:'0 0 0 2px #ffb000'},{boxShadow:'0 0 0 0 transparent'}],{duration:1400})});bn.appendChild(a)});bn.appendChild(el('span',null,'Decisions stay in each team panel.'))}
@@ -72,27 +73,14 @@ DEF.forEach(function(p){var s=el('section','mc-p p-'+p.id+(p.team?' is-acc t-'+p
  var red=D.lights.filter(function(x){return x.c==='red'});var al=$('mc-alert');if(red.length){al.hidden=false;al.textContent='Red alert: '+red.map(function(x){return x.name+' \u2013 '+x.why}).join(' \u00b7 ');
   var played=false;function chime(){if(played)return;played=true;try{var C=new (window.AudioContext||window.webkitAudioContext)(),o=C.createOscillator(),g=C.createGain();o.type='sine';o.frequency.value=880;g.gain.setValueAtTime(0.0001,C.currentTime);g.gain.exponentialRampToValueAtTime(0.06,C.currentTime+0.02);g.gain.exponentialRampToValueAtTime(0.0001,C.currentTime+1.2);o.connect(g);g.connect(C.destination);o.start();o.stop(C.currentTime+1.3)}catch(_){}}
   document.addEventListener('pointerdown',chime,{once:true});document.addEventListener('keydown',chime,{once:true})}})();
-/* ---------- layout: drag and resize like a desktop (>=1100px), saved per device ---------- */
+/* ---------- layout: fixed defaults from #mc-data; ignore/clear legacy drag positions ---------- */
+try{localStorage.removeItem(LS)}catch(_){}
 var mq=matchMedia('(min-width:1100px)');
-function load(){var s=null;try{s=JSON.parse(localStorage.getItem(LS)||'null')}catch(_){}return s&&s.v===1?s.p:{}}
-var L=load();function cur(id){var d=map[id].def,o=L[id]||{};return {c:o.c||d.c,r:o.r||d.r,w:o.w||d.w,h:o.h||d.h}}
-function clamp(g){g.w=Math.max(2,Math.min(COLS,g.w));g.h=Math.max(1,Math.min(ROWS+4,g.h));g.c=Math.max(1,Math.min(COLS-g.w+1,g.c));g.r=Math.max(1,g.r);return g}
-function apply(){Object.keys(map).forEach(function(id){var s=map[id].el;if(!mq.matches){s.style.gridArea='';return}var g=cur(id);s.style.gridArea=g.r+' / '+g.c+' / span '+g.h+' / span '+g.w})}
-function save(){try{localStorage.setItem(LS,JSON.stringify({v:1,p:L}))}catch(_){}}
+function apply(){Object.keys(map).forEach(function(id){var s=map[id].el,d=map[id].def;if(!mq.matches){s.style.gridArea='';return}s.style.gridArea=d.r+' / '+d.c+' / span '+d.h+' / span '+d.w})}
 function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=48;if(!mq.matches){G.style.removeProperty('--rowh');return}var avail=window.innerHeight-hd-ft-(ROWS-1)*10;var rh=Math.floor(avail/ROWS);
  if(window.innerWidth>=1800&&window.innerHeight>=900&&rh>=118)G.style.setProperty('--rowh',rh+'px');else G.style.setProperty('--rowh','172px')}
-function metrics(){var r=G.getBoundingClientRect(),cs=getComputedStyle(G),gap=parseFloat(cs.columnGap)||10,rh=parseFloat(cs.gridAutoRows)||172;return {r:r,cw:(r.width-gap*(COLS-1))/COLS+gap,rh:rh+gap}}
-var drag=null;
-G.addEventListener('pointerdown',function(e){if(!mq.matches||e.button!==0)return;var s=e.target.closest('.mc-p');if(!s)return;var rz=e.target.closest('.mc-rz'),hd=e.target.closest('.mc-ph');if(!rz&&(!hd||e.target.closest('a,button')))return;
- var id=s.id.slice(2),m=metrics();drag={id:id,s:s,rz:rz&&rz._k,x:e.clientX,y:e.clientY,g0:cur(id),m:m};s.classList.add('is-moving');s.setPointerCapture&&s.setPointerCapture(e.pointerId);e.preventDefault()});
-G.addEventListener('pointermove',function(e){if(!drag)return;var dx=Math.round((e.clientX-drag.x)/drag.m.cw),dy=Math.round((e.clientY-drag.y)/drag.m.rh),g=Object.assign({},drag.g0);
- if(!drag.rz){g.c+=dx;g.r+=dy}else if(drag.rz==='br'){g.w+=dx;g.h+=dy}else{g.c+=dx;g.w-=dx;g.h+=dy;if(g.w<2){g.c-=2-g.w;g.w=2}}
- g=clamp(g);L[drag.id]=g;drag.s.style.gridArea=g.r+' / '+g.c+' / span '+g.h+' / span '+g.w});
-function end(){if(!drag)return;drag.s.classList.remove('is-moving');save();drag=null}
-G.addEventListener('pointerup',end);G.addEventListener('pointercancel',end);
-var rs=$('mc-reset');if(rs)rs.addEventListener('click',function(){L={};try{localStorage.removeItem(LS)}catch(_){}apply();toast('Layout reset to default.')});
-function onmq(){document.body.classList.toggle('mc-drag',mq.matches);apply();sizeRows()}
+function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,get:function(id){return cur(id)}};
+window.__mc={layoutKey:LS,fixed:true};
 })();
