@@ -74,3 +74,15 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Keep only: Members (top-left), Technicians, Scheduling, Tools & Equipment, Marketing (placeholder tile), Ping Log.
 - Dark/black chrome + light cream tile interiors (`assets/mc.css`). Cache tag `uk11g`.
 - Source of truth still `/workspace/ops/upkeep-board-data/uk11f/` (`build_uk11f.py`, now idempotent on already-uk11f boards). Data unchanged test-2026-10-19c. Relocked.
+
+## uk11h (Oct 28 2026 evening, Machan): MacBook-fit tile polish
+- No header Needs Machan band (per-section only when relevant).
+- MacBook viewport fit: 6-row grid (3+3 panels), denser cream tiles, viewport-scaled `--rowh`.
+- Members (v7bucs): 4 metric pills · Needs OFF · open messages list · 4 then more.
+- Technicians (u3tf3p): metrics · clear green Needs · stop bars per TD · folds when clear.
+- Scheduling (hqq4gd): metrics · green clear Needs · separate Scheduling Requests · 4 then more.
+- Tools: per-van (Van #1/#2/#3) + At the Shop (freewrite / 9o9eqp framing; remake picks pending).
+- Marketing: summary placeholder (18vb3b still open).
+- Ping Log (l8sm55): always-expanded compact table · team tabs · 5 rows before scroll · quiet chevron.
+- Still waiting: Color Tone 7bj9b4, Appearance b54c65, Marketing Tile 18vb3b, Tools remake picks 9o9eqp.
+- Dark shell + light tiles unchanged. Data test-2026-10-19c. Relocked.
