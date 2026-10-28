@@ -68,3 +68,9 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Shared mission header (assets/mc-head.js): callsign, mission clock (ICT) + TEST sim date, flat status light bars, tab row board switcher.
 - Root = mission grid (assets/mc.js): panels drag by title bar and resize from a bottom corner at >=1100px; layout saved in localStorage `ukcc-layout-uk11f` (Reset layout button). Locked Ping Log (UK-YYYYMMDD-NN, Open / In progress / Done).
 - Boards: Swatch's uk12 renderer (uk11 picks) + Ping Log columns + sortable van stock. Data still test-2026-10-19c. Build: build_uk11f.py.
+
+## uk11g (Oct 28 2026, Machan): six-panel dark-shell Command Center
+- No section drag/resize; legacy `ukcc-layout-uk11f` cleared on load; Reset layout removed.
+- Keep only: Members (top-left), Technicians, Scheduling, Tools & Equipment, Marketing (placeholder tile), Ping Log.
+- Dark/black chrome + light cream tile interiors (`assets/mc.css`). Cache tag `uk11g`.
+- Source of truth still `/workspace/ops/upkeep-board-data/uk11f/` (`build_uk11f.py`, now idempotent on already-uk11f boards). Data unchanged test-2026-10-19c. Relocked.
