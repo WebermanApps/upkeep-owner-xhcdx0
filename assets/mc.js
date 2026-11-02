@@ -17,8 +17,8 @@ function ro(stats){var g=el('div','mc-ro');stats.forEach(function(s){var c=el('d
 function needBand(t,opts){opts=opts||{};var nd=el('div','mc-need');nd.id='need-'+t.id;
  /* z7cble note: Needs only when items exist — no empty Needs headers on every section; no global header Needs */
  if(!(t.needs&&t.needs.length)||opts.hide){nd.hidden=true;nd.setAttribute('aria-hidden','true');return nd}
- var h=el('h3',null,'Needs Machan');nd.appendChild(h);
- var u=el('ul');t.needs.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);(x.acts||[]).forEach(function(a){li.appendChild(stub(a))});u.appendChild(li)});nd.appendChild(u);
+ var dd=el('details','mc-need-d'),sm=el('summary'),key='ccm-need-'+t.id;sm.append(el('h3',null,'Needs Machan ('+t.needs.length+')'));dd.appendChild(sm);try{dd.open=localStorage.getItem(key)==='1'}catch(_){}dd.addEventListener('toggle',function(){try{localStorage.setItem(key,dd.open?'1':'0')}catch(_){}});nd.appendChild(dd);
+ var u=el('ul');t.needs.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);(x.acts||[]).forEach(function(a){li.appendChild(stub(a))});u.appendChild(li)});dd.appendChild(u);
  return nd}
 function sortable(t,cols,data,rowFn,init){var st={k:init||null,d:1},tb=el('tbody'),th=el('thead'),tr=el('tr');
  cols.forEach(function(c){var x=el('th');var b=el('button',null,c[0]);b.type='button';x.appendChild(b);x.setAttribute('aria-sort','none');b.addEventListener('click',function(){if(st.k===c[1])st.d=-st.d;else{st.k=c[1];st.d=1}draw()});x._k=c[1];tr.appendChild(x)});th.appendChild(tr);t.append(th,tb);
@@ -50,7 +50,7 @@ P['team-technicians']=function(b){var t=D.teams.find(function(x){return x.id==='
 P['team-scheduling']=function(b){var t=D.teams.find(function(x){return x.id==='scheduling'});if(!t)return;
  if(window.CCM)CCM.scheduling(b);else b.appendChild(ro(t.stats.slice(0,4)));
  b.appendChild(needBand(t)); /* green when all clear (note) */
- var req=t.main.rows||[];var sd=el('details','mc-fold ccm-sreq '+(req.length?'lv-yellow':'lv-green')),ss=el('summary');ss.append(el('b',null,'Scheduling Requests'),el('span','ccm-badge',String(req.length)));sd.appendChild(ss);var sx=el('div');sx.appendChild(rows(req,99));sd.appendChild(sx);b.appendChild(sd)};
+ var req=t.main.rows||[];var sd=el('details','mc-fold ccm-sreq '+(req.length?'lv-yellow':'lv-green')),ss=el('summary');ss.append(el('b',null,'Scheduling Requests'),el('span','ccm-badge',String(req.length)));sd.appendChild(ss);var sx=el('div');sx.appendChild(rows(req,99));sd.appendChild(sx);b.appendChild(sd);var pc=b.querySelector('.ccm-pcal');if(pc)pc.parentNode.insertBefore(sd,pc)};
 /* Tools freewrite: per-van subsections + At the Shop (van lows separate from shop lows). Needs when relevant. */
 P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id==='tools-equipment'});if(!t)return;
  b.appendChild(ro(t.stats.slice(0,4)));
@@ -59,8 +59,8 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  var vanIds=Object.keys(vans).sort(function(a,b){return (+a)-(+b)});
  vanIds.forEach(function(vid){var lows=vans[vid].filter(function(x){return x.st==='Below min'});
   var blk=el('div','mc-van');
-  var hd=el('div','mc-van-h ccm-clk');hd.append(el('b',null,'Van #'+vid),el('span',null,'Tech Dash '+vid));hd.tabIndex=0;hd.setAttribute('role','button');hd.title='Open full van list';hd.onclick=function(){if(window.CCM)CCM.stock('Van #'+vid,'Tech Dash '+vid+' \u00b7 everything on the van',vans[vid].map(function(x){return {item:x.item,cat:x.cat,qty:x.on,min:x.min,loc:'Van '+vid,st:x.st==='Below min'?'Low':'OK'}}))};hd.onkeydown=function(e){if(e.key==='Enter')hd.onclick()};
-  hd.appendChild(chip(lows.length?lows.length+' low \u00b7 Red':'OK \u00b7 Green',lows.length?'red':'ok'));blk.classList.add(lows.length?'lv-red':'lv-green');
+  var hd=el('div','mc-van-h ccm-clk');hd.append(el('b',null,'Van #'+vid),el('span',null,'Ethan'));hd.tabIndex=0;hd.setAttribute('role','button');hd.title='Open full van list';hd.onclick=function(){if(window.CCM)CCM.stock('Van #'+vid,'Ethan'+' \u00b7 everything on the van',vans[vid].map(function(x){return {item:x.item,cat:x.cat,qty:x.on,min:x.min,loc:'Van '+vid,st:x.st==='Below min'?'Low':'OK'}}))};hd.onkeydown=function(e){if(e.key==='Enter')hd.onclick()};
+  hd.appendChild(el('span','lv-dot '+(lows.length?'red':'green'),lows.length?lows.length+' low':'Full'));blk.classList.add(lows.length?'lv-red':'lv-green');
   blk.appendChild(hd);
   if(lows.length){var u=el('ul','mc-rows');lows.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.item));s.appendChild(el('small',null,x.cat+' · '+x.on+' on · min '+x.min));li.appendChild(s);li.appendChild(chip('Below min','red'));u.appendChild(li)});blk.appendChild(u)}
   else blk.appendChild(el('p','mc-quiet','No van lows'));
@@ -71,7 +71,7 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  var shopLines=[];
  if(D.gear&&D.gear.shop&&D.gear.shop.length){shopLines=D.gear.shop}
  else{(t.needs||[]).forEach(function(n){if(/Van 1-3|all vans|shop/i.test(n.s||'')||/Van 1-3|all vans|shop/i.test(n.t||''))shopLines.push({t:n.t,s:n.s||'Shared restock',chip:n.chip||['Shop','shop']})})}
- sh.appendChild(chip(shopLines.length?shopLines.length+' low \u00b7 Yellow':'OK \u00b7 Green',shopLines.length?'warn':'ok'));shop.classList.add(shopLines.length?'lv-yellow':'lv-green');
+ sh.appendChild(el('span','lv-dot '+(shopLines.length?'yellow':'green'),shopLines.length?shopLines.length+' low':'Full'));shop.classList.add(shopLines.length?'lv-yellow':'lv-green');
  shop.appendChild(sh);
  if(shopLines.length){var u2=el('ul','mc-rows');shopLines.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t||x.item));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);if(x.chip)li.appendChild(chip(x.chip[0],x.chip[1]||'shop'));u2.appendChild(li)});shop.appendChild(u2)}
  else shop.appendChild(el('p','mc-quiet','No shop lows (TEST)'));
@@ -123,5 +123,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11m'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11o'};
 })();
