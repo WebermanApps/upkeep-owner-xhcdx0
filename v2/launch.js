@@ -3,6 +3,7 @@
 "use strict";
 var css='.lc-tick{display:inline-flex;align-items:center;gap:6px;font:500 13px Hind,system-ui,sans-serif;color:#1a1a1a;background:#fff;border:1px solid #e3ddd2;border-radius:999px;padding:3px 10px;white-space:nowrap;line-height:1.3}'+
 '.lc-tick b{font:600 15px Khand,sans-serif;color:#C4552D}.lc-tick .lc-l{font:600 12px Khand,sans-serif;color:#555}.lc-tick .lc-tz{font-size:11px;color:#6b6b6b}'+
+'.lc-app{display:inline-flex;align-items:center;font:600 13px Khand,sans-serif;letter-spacing:.3px;color:#1a1a1a;background:#fff;border:1px solid #e3ddd2;border-radius:999px;padding:3px 10px;text-decoration:none;white-space:nowrap;line-height:1.3}.lc-app:hover{border-color:#05668D;color:#05668D}@media(max-width:600px){.lc-app{font-size:12px;padding:2px 8px}}'+
 '.lc-wrap{display:flex;justify-content:flex-end;padding:4px 12px 0}.lc-float{position:fixed;top:8px;right:10px;z-index:50}'+
 '@media(max-width:600px){.lc-tick .lc-tz{display:none}.lc-tick{font-size:12px}}'+
 '.lc-stack{display:flex;flex-direction:column;gap:12px;margin:12px 0;grid-column:1/-1;min-width:0;max-width:100%}.lc-stack>*{min-width:0;max-width:100%;box-sizing:border-box}.v2-sec.lc-sec>summary{min-height:35px}.lc-warm .wl-t{display:block;overflow-x:auto}@media(max-width:700px){.lc-warm .wl-t{display:table}}'+
@@ -30,7 +31,7 @@ function tick(){var el=document.createElement('span');el.className='lc-tick';el.
   el.innerHTML='<span class="lc-l">Launch In</span> <b>'+d+'d</b> <b>'+h+'h</b> <b>'+mi+'m</b> <span class="lc-tz">Dec 1 · Detroit Time</span>'}
  up();setInterval(up,15000);return el}
 function placeTick(){var t=tick(),h=document.querySelector('.mc-mh-in')||document.querySelector('header.v2-hd')||document.querySelector('.mw-cc-header')||document.querySelector('header');
- if(h){var w=document.createElement('div');w.className='lc-host';w.style.cssText='margin-left:auto;display:flex;align-items:center';w.appendChild(t);
+ if(h){var w=document.createElement('div');w.className='lc-host';w.style.cssText='margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end';[['Member App','https://smartupkeep.ai/member/'],['Tech App','https://smartupkeep.ai/tech/'],['Main App','https://smartupkeep.ai/']].forEach(function(x){var a=document.createElement('a');a.className='lc-app';a.href=x[1];a.target='_blank';a.rel='noopener';a.textContent=x[0];w.appendChild(a)});w.appendChild(t);
   var cs=getComputedStyle(h);if(cs.display.indexOf('flex')>=0){h.appendChild(w)}else{w.className='lc-wrap';h.appendChild(w)}}
  else{t.classList.add('lc-float');document.body.appendChild(t)}}
 /* --- checklist --- */
