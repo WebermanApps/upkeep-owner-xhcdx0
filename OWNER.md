@@ -110,3 +110,6 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Scheduling: month calendar always visible under the 4 tiles (dots/days clickable); Scheduling Requests is a collapsed dropdown, yellow header with count badge when 1+ (green at 0).
 - Tools: stock names Title Case; Below Min stat from current data (2, Van 2). Van and At The Shop (Inventory) headers open full grouped, searchable lists (gear.shop_full).
 - Board tab bar hidden on the main page only (inline style); sub-boards unchanged. Cache tag `uk11l`.
+
+## v2 preview (Nov 2 2026, Machan): simplicity-first redesign at /v2/ (locked, same password, not linked anywhere)
+- `v2/index.html` (locked; same ccm-data + mc-data blocks), `v2/ccm.js` (copy of assets/ccm.js with extra exports), `v2/app.js` (section template: title, 4 tiles, main view, dropdowns), `v2/ccm.css`, `v2/app.css`. Main page unchanged.
