@@ -55,13 +55,21 @@ function stack(){var st=document.getElementById('lc-stack');if(st)return st;var 
  return st}
 function timeline(st){if(document.getElementById('launch-timeline'))return;var x=shell('launch-timeline','Launch Timeline',TO,false);x.c.textContent='Nov 2026 to Jan 2027 · Plan';
  x.b.innerHTML=TL.map(function(g){return '<h4 class="lt-h">'+g[0]+'</h4><ul class="lt-ul">'+g[1].map(function(t){return '<li>'+t+'</li>'}).join('')+'</ul>'}).join('');st.appendChild(x.d)}
-function warmFold(st){var w=document.getElementById('p-warm')||document.getElementById('s-warm');if(!w||w.dataset.lcFold)return;w.dataset.lcFold='1';
- w.style.gridArea='';w.classList.add('lc-warm');st.appendChild(w);var h=w.querySelector('.mc-ph'),K='warmList.open';if(!h)return;
+function fold(w,st,K,cntFn){if(!w||w.dataset.lcFold)return;w.dataset.lcFold='1';
+ w.style.gridArea='';w.classList.add('lc-warm');st.appendChild(w);var h=w.querySelector('.mc-ph');if(!h)return;
  h.classList.add('lc-wh');h.setAttribute('role','button');h.tabIndex=0;var c=document.createElement('span');c.className='wl-count lc-wc';var ch=document.createElement('span');ch.className='lc-ch';ch.setAttribute('aria-hidden','true');ch.textContent='▾';h.append(c,ch);
- function cnt(){var n=0,t=0;try{var s=JSON.parse(localStorage.getItem('ccm-warm-v1'));if(s&&s.homes){t=s.homes.length;n=s.homes.filter(function(x){return x.status==='Member'}).length}}catch(e){}if(!t){try{var sd=JSON.parse(document.getElementById('warm-data').textContent);n=sd.homes.filter(function(x){return x.status==='Member'}).length}catch(e){n=25}}c.textContent=n+' Members'}
+ function cnt(){c.textContent=cntFn()}
  function set(o){w.classList.toggle('wl-closed',!o);h.setAttribute('aria-expanded',String(o));try{localStorage.setItem(K,o?'1':'0')}catch(e){}cnt()}
  h.addEventListener('click',function(e){if(e.target.closest('button,a,input,select'))return;set(w.classList.contains('wl-closed'))});h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click()}});
  w.addEventListener('change',cnt);set(localStorage.getItem(K)==='1')}
+function warmCount(){var n=0,t=0;try{var s=JSON.parse(localStorage.getItem('ccm-warm-v1'));if(s&&s.homes){t=s.homes.length;n=s.homes.filter(function(x){return x.status==='Member'}).length}}catch(e){}if(!t){try{var sd=JSON.parse(document.getElementById('warm-data').textContent);n=sd.homes.filter(function(x){return x.status==='Member'}).length}catch(e){n=25}}return n+' Members'}
+function warmFold(st){fold(document.getElementById('p-warm')||document.getElementById('s-warm'),st,'warmList.open',warmCount)}
+function mktFold(st){var m=document.getElementById('p-marketing')||document.getElementById('s-marketing');if(!m||m.dataset.lcFold)return;
+ var pb=m.querySelector('.mc-pb');if(pb&&window.CCM&&CCM.adTiles&&!m.querySelector('.ccm-ad')){var g=CCM.adTiles(document.createElement('div'));pb.insertBefore(g,pb.firstChild)}
+ if(!isV2()){var f=document.getElementById('p-financial');if(f){var a=(m.style.gridArea||'').split('/').map(function(x){return x.trim()}),b=(f.style.gridArea||'').split('/').map(function(x){return x.trim()});
+  /* Financial takes over Marketing's old grid slot so no hole is left */
+  if(a.length===4&&b.length===4&&a[0]===b[0]){f.style.gridArea=b[0]+' / '+Math.min(+a[1],+b[1])+' / '+b[2]+' / span '+((+a[3].replace('span',''))+(+b[3].replace('span','')))}}}
+ fold(m,st,'marketing.open',function(){return '$0/mo Ad Spend'})}
 function checklist(){var tgt=document.getElementById('p-warm')||document.getElementById('s-warm');if(!tgt||document.getElementById('launch-checklist'))return;var st=stack();
  var L=load(),x=shell('launch-checklist','Launch Checklist',LO,false),sec=x.d,B=x.b;
  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -75,7 +83,7 @@ function checklist(){var tgt=document.getElementById('p-warm')||document.getElem
   B.querySelector('[data-all]').onclick=function(){if(confirm('Delete all checklist items?')){L=[];save(L);draw()}};
   B.querySelector('[data-restore]').onclick=function(){L=seedList();save(L);draw()};
  }
- draw();st.appendChild(sec);timeline(st);warmFold(st)}
+ draw();st.appendChild(sec);timeline(st);mktFold(st);warmFold(st)}
 function init(){placeTick();checklist();if(!document.querySelector('.lc-sec')){var n=0,iv=setInterval(function(){checklist();if(document.querySelector('.lc-sec')||++n>40)clearInterval(iv)},250)}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
