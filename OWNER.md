@@ -99,3 +99,9 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Members demo list cut to 20 in `members/index.html` board-data; the other 80 are archived in the `#members-archive` JSON block in the same locked page (not rendered). Restore by appending them to board-data.members.
 - `assets/ccm.js` + `assets/ccm.css`: Members 4 tiles (Active Members, Visits This Month, Messages, Pending Requests) with sortable pop-up lists, Messages list + chat (replies in localStorage `ccm-demo-uk11j`, logged to Ping Log), Scheduling 4 tiles + calendar, Financial tiles, Tools Order Approval, Ping Log as a fixed right column on desktop (collapsible on phone), white header for WCAG AA contrast.
 - Footers: plain "Built by Machan", no link. Cache tag `uk11j`.
+
+## uk11k (Nov 2 2026, Machan): Member Summary + polish
+- Active Members list: names open a Member Summary (overview, Systems from Home Record, Visit History, Messages, Pending Requests, Billing) with Back.
+- Header date is today's real date in Detroit time (mc-head.js). Members tiles 2x2 on desktop.
+- Stock demo: Inventory yellow (gear.shop), Van 1 green, Van 2 red; Order Approval orders are built from those flagged items.
+- Financial: 4 tiles (Monthly Revenue, Avg Rev/Member, Cash On Hand, Profit), each with a pop-up. Cache tag `uk11k`.

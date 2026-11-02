@@ -99,3 +99,19 @@ html.mc .mc-mh .mc-clock .sim{color:#8A4B00!important}
 html.mc .mc-ph h2{color:#1a1a1a!important}html.mc .mc-ph a{color:#1a1a1a!important;text-decoration:underline}
 html.mc .mc-ph .test{color:#6b4500!important}
 html.mc .mc-tabs{background:#F4F4F4!important;border-top:1px solid #DDDDDD!important}html.mc .mc-tab[aria-current=page]{background:#fff}
+/* uk11k */
+.ccm-tiles.fin{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:1100px){.t-members .ccm-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.t-members .ccm-tile{min-height:64px;padding:8px 10px}.t-members .ccm-tile b{font-size:26px}.t-members .ccm-tile span{font-size:14px}}
+.ccm-back{border:1px solid #cfcfcf;background:#fff;color:#1a1a1a;font:600 14px Hind,sans-serif;min-height:40px;padding:0 12px;cursor:pointer;white-space:nowrap}
+.ccm-nm{all:unset;cursor:pointer;font-weight:600;color:#1a1a1a;text-decoration:underline;text-underline-offset:3px}.ccm-nm:focus-visible{outline:2px solid #05668D}
+.ccm-box.ccm-sum{width:min(860px,100%)}
+.ccm-kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:6px}.ccm-kv div{border:1px solid #e3e3e3;padding:7px 9px;background:#fafafa}
+.ccm-kv span{display:block;font:600 12px Khand,sans-serif;color:#555}.ccm-kv b{font-weight:600;font-size:14px}
+.ccm-sec{border-top:1px solid #e3e3e3;margin-top:12px;padding-top:8px}.ccm-sec h4{font:600 18px Khand,sans-serif;margin:0 0 6px}
+.ccm-sys{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}.ccm-sys div{display:flex;justify-content:space-between;align-items:center;gap:6px;border:1px solid #ececec;padding:5px 8px;font-size:13px}
+.ccm-hr{display:inline-block;margin-top:6px;color:#05668D;font-weight:600}
+.ccm-vh{max-height:300px;overflow:auto;border:1px solid #eee}.ccm-vh li{grid-template-columns:120px 1fr auto}.ccm-d small{display:block}
+.ccm-thread.ccm-mini{flex:none;min-height:0;max-height:260px}
+.ccm-rq li{grid-template-columns:90px 1fr}
+.mc-van.lv-red,.mc-shop.lv-red{border-left:4px solid #B02030}.mc-van.lv-green,.mc-shop.lv-green{border-left:4px solid #0B6E4F}.mc-shop.lv-yellow{border-left:4px solid #C47A00}
+@media (max-width:560px){.ccm-oh{flex-wrap:wrap}.ccm-kv{grid-template-columns:1fr 1fr}.ccm-vh li{grid-template-columns:96px 1fr}.ccm-vh li .ccm-chip{grid-column:2;justify-self:start}}

@@ -1,4 +1,4 @@
-/* uk11j: Members/Scheduling/Financial via assets/ccm.js; Ping Log side column. uk11i UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
+/* uk11k: Members/Scheduling/Financial via assets/ccm.js; Ping Log side column. uk11i UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
    tile content per Oct 28 deck locks (Members/Technicians/Scheduling/Ping Log) +
    Tools vans+shop freewrite; Marketing summary. UpKeep Develop / Machan Oct 28 2026.
    Reads only the inline #mc-data block (TEST snapshot). Clears legacy ukcc-layout-uk11f. */
@@ -63,18 +63,18 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  vanIds.forEach(function(vid){var lows=vans[vid].filter(function(x){return x.st==='Below min'});
   var blk=el('div','mc-van');
   var hd=el('div','mc-van-h');hd.append(el('b',null,'Van #'+vid),el('span',null,'Tech Dash '+vid));
-  hd.appendChild(chip(lows.length?lows.length+' low':'OK',lows.length?'warn':'ok'));
+  hd.appendChild(chip(lows.length?lows.length+' low \u00b7 Red':'OK \u00b7 Green',lows.length?'red':'ok'));blk.classList.add(lows.length?'lv-red':'lv-green');
   blk.appendChild(hd);
-  if(lows.length){var u=el('ul','mc-rows');lows.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.item));s.appendChild(el('small',null,x.cat+' · '+x.on+' on · min '+x.min));li.appendChild(s);li.appendChild(chip('Below min','warn'));u.appendChild(li)});blk.appendChild(u)}
+  if(lows.length){var u=el('ul','mc-rows');lows.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.item));s.appendChild(el('small',null,x.cat+' · '+x.on+' on · min '+x.min));li.appendChild(s);li.appendChild(chip('Below min','red'));u.appendChild(li)});blk.appendChild(u)}
   else blk.appendChild(el('p','mc-quiet','No van lows'));
   b.appendChild(blk)});
  /* At the Shop — shared / shop-shelf lows (not invented counts). Prefer gear.shop; else shared needs (Van 1-3) + clear. */
  var shop=el('div','mc-shop');
- var sh=el('div','mc-van-h');sh.append(el('b',null,'At the Shop'),el('span',null,'Shop shelf'));
+ var sh=el('div','mc-van-h');sh.append(el('b',null,'Inventory'),el('span',null,'At the shop'));
  var shopLines=[];
  if(D.gear&&D.gear.shop&&D.gear.shop.length){shopLines=D.gear.shop}
  else{(t.needs||[]).forEach(function(n){if(/Van 1-3|all vans|shop/i.test(n.s||'')||/Van 1-3|all vans|shop/i.test(n.t||''))shopLines.push({t:n.t,s:n.s||'Shared restock',chip:n.chip||['Shop','shop']})})}
- sh.appendChild(chip(shopLines.length?shopLines.length+' low':'OK',shopLines.length?'shop':'ok'));
+ sh.appendChild(chip(shopLines.length?shopLines.length+' low \u00b7 Yellow':'OK \u00b7 Green',shopLines.length?'warn':'ok'));shop.classList.add(shopLines.length?'lv-yellow':'lv-green');
  shop.appendChild(sh);
  if(shopLines.length){var u2=el('ul','mc-rows');shopLines.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t||x.item));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);if(x.chip)li.appendChild(chip(x.chip[0],x.chip[1]||'shop'));u2.appendChild(li)});shop.appendChild(u2)}
  else shop.appendChild(el('p','mc-quiet','No shop lows (TEST)'));
@@ -125,5 +125,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11j'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11k'};
 })();

@@ -12,7 +12,7 @@ var a=el('a','mc-apps mc-hide-s');a.href='https://webermanapps.github.io/a-o956q
 var cs=el('div','mc-cs');var im=el('img');im.src=ROOT+'assets/smart-upkeep-mark.png';im.alt='';im.width=28;im.height=28;cs.append(im,el('b',null,CALL[K]||'UPK'),el('span',null,K==='ethan-cc'?'UpKeep Command Center':(TABS.filter(function(t){return t[0]===K})[0]||[0,''])[1]+' Command Center'));
 var L=el('div','mc-lights');L.setAttribute('aria-label','Status lights');
 (mc.lights||[]).forEach(function(x){var s=el('span','mc-light '+(x.c==='green'?'':x.c));s.title=x.name+': '+x.why;s.setAttribute('role','img');s.setAttribute('aria-label',x.name+' '+x.c+': '+x.why);s.append(el('i'),el('span',null,x.short||x.name));L.appendChild(s)});
-var ck=el('div','mc-clock');var sim=el('span','sim',mc.sim||'');sim.title='TEST snapshot date';var ict=el('span','ict');var tb=el('b');tb.setAttribute('aria-live','off');ict.append(tb,document.createTextNode(' ICT'));ck.append(sim,ict);
+var ck=el('div','mc-clock');var sim=el('span','sim',(function(){try{return new Date().toLocaleDateString('en-US',{timeZone:'America/Detroit',weekday:'short',month:'short',day:'numeric',year:'numeric'})+' \u00b7 Detroit'}catch(_){return mc.sim||''}})());sim.title='Today in Detroit Time';var ict=el('span','ict');var tb=el('b');tb.setAttribute('aria-live','off');ict.append(tb,document.createTextNode(' ICT'));ck.append(sim,ict);
 function tick(){var d=new Date(Date.now()+7*36e5);tb.textContent=('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2)+':'+('0'+d.getUTCSeconds()).slice(-2)}tick();setInterval(tick,1000);
 r.append(a,cs,L,ck);
 h.appendChild(r);var nav=el('nav','mc-tabs');nav.setAttribute('aria-label','Boards');
