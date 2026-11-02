@@ -1,8 +1,8 @@
-/* uk11k Command Center: Members tiles + Messages + chat, Scheduling tiles + calendar, Financial tiles, side Ping Log.
+/* uk11l Command Center: Members tiles + Messages + chat, Scheduling tiles + calendar, Financial tiles, side Ping Log.
    EXAMPLE DATA ONLY (inline #ccm-data). Day boundaries use America/Detroit. Replies stored in localStorage (demo). */
 (function(){'use strict';
 var D;try{D=JSON.parse(document.getElementById('ccm-data').textContent)}catch(_){return}
-var TZ='America/Detroit',LSK='ccm-demo-uk11k',NOW=Date.now();
+var TZ='America/Detroit',LSK='ccm-demo-uk11l',NOW=Date.now();
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function S(){try{return JSON.parse(localStorage.getItem(LSK))||{}}catch(_){return {}}}
 function save(s){try{localStorage.setItem(LSK,JSON.stringify(s))}catch(_){}}
@@ -81,7 +81,7 @@ function summary(m){var back=membersList,me=function(){summary(m)};var b=overlay
 var VCOLS=[['Date','sortkey',function(r){return fmtDay(r.off)}],['Time','tmin',function(r){return timeNode(r.off,r.time)}],['Member','member'],['Tech','tech'],['Type','type'],['Status','status',function(r){return chip(r.status,stCls(r.status))}]];
 function visitDetail(v,back){var b=overlay(v.type,v.member+' \u00b7 '+fmtDay(v.off,1),back);var dl=el('dl','ccm-dl');
  [['Member',v.member+' ('+v.plan+' plan)'],['Area',v.area],['Tech',v.tech],['Visit Type',v.type],['Date',fmtDay(v.off,1)],['Time',timeNode(v.off,v.time)],['Length',v.mins+' min'],['Status',chip(v.status,stCls(v.status))],['Notes',v.status==='Done'?'Checklist complete. Photos in the Proof Pack.':v.status==='Missed'?'Member not home. Reschedule offered.':v.status==='Reschedule Requested'?'Member asked for a new time.':'Confirmed with member.'],['Visit ID',v.id]].forEach(function(x){dl.append(el('dt',null,x[0]));var d=el('dd');if(x[1] instanceof Node)d.appendChild(x[1]);else d.textContent=x[1];dl.appendChild(d)});b.appendChild(dl);label(b)}
-function calendar(box,onDay){var cur=new Date(TODAY);cur.setUTCDate(1);var wrap=el('div','ccm-cal');box.appendChild(wrap);var det=el('div','ccm-day');box.appendChild(det);
+function calendar(box,onDay,inline){var cur=new Date(TODAY);cur.setUTCDate(1);var wrap=el('div','ccm-cal');box.appendChild(wrap);var det=el('div','ccm-day');box.appendChild(det);
  function draw(){wrap.textContent='';var hd=el('div','ccm-calh'),pv=el('button',null,'\u2039'),nx=el('button',null,'\u203a');pv.type=nx.type='button';pv.setAttribute('aria-label','Previous month');nx.setAttribute('aria-label','Next month');
   pv.onclick=function(){cur.setUTCMonth(cur.getUTCMonth()-1);draw()};nx.onclick=function(){cur.setUTCMonth(cur.getUTCMonth()+1);draw()};
   hd.append(pv,el('b',null,cur.toLocaleDateString('en-US',{timeZone:'UTC',month:'long',year:'numeric'})),nx);wrap.appendChild(hd);
@@ -123,7 +123,7 @@ function scheduling(b,orig){var host=el('div');b.appendChild(host);var V=D.visit
   ["Tomorrow's Visits",String(tm.length),fmtDay(1),function(){visitSubset("Tomorrow's Visits",fmtDay(1,1),tm)}],
   ['Remaining This Week',String(rw.length),'through '+fmtDay(WEEKEND),function(){visitSubset('Remaining This Week','Not yet done, through Sunday',rw)}],
   ['Needs Rescheduling',String(nr.length),'missed + requests',function(){visitSubset('Needs Rescheduling','Missed in the last 30 days plus reschedule requests',nr)}]]);
- var cb=el('button','ccm-link','Open Visit Calendar');cb.type='button';cb.onclick=visitsList;host.appendChild(cb);label(host);if(orig)orig()}
+ var cw=el('div','ccm-pcal');host.appendChild(cw);calendar(cw,null,true);label(host);if(orig)orig()}
 function financial(b){var F=D.fin,act=D.members.filter(function(m){return m.status==='Active'}),ch=F.mrr-F.mrr_prev,pct=(ch/F.mrr_prev*100).toFixed(1),run=(F.cash/F.exp_total).toFixed(1),arpm=F.mrr/act.length;
  var plans=['Essentials','Plus','Complete'].map(function(p){var L=act.filter(function(m){return m.plan===p});return {plan:p,members:L.length,price:L.length?L[0].price:0,rev:L.reduce(function(a,m){return a+m.price},0)}});
  b.appendChild(el('p','ccm-ex','Example data \u00b7 '+act.length+' active of '+D.members.length+' demo members \u00b7 this month'));
@@ -166,5 +166,8 @@ function orders(b){var host=el('div','ccm-orders');b.appendChild(host);function 
    if(!L.length){var er=el('tr'),ec=el('td','ccm-quiet','No '+tab.toLowerCase()+' orders.');ec.colSpan=7;er.appendChild(ec);tb.appendChild(er)}w.appendChild(t);body.appendChild(w)}rd()}
  function decide(o,v){var s=S();s.orders=s.orders||{};s.orders[o.id]=v;(s.pings=s.pings||[]).push({at:Date.now(),cat:'Requests',type:'Order '+v,summary:o.id+' '+o.item+' \u00d7'+o.qty+' for '+o.loc+' \u00b7 '+money(o.cost),member:'',sender:'Machan',state:v==='Approved'?'Done':'Answered',local:1});save(s);refresh()}
  draw();hooks.push(draw)}
-window.CCM={members:members,scheduling:scheduling,financial:financial,pinglog:pinglog,orders:orders,tz:TZ};
+function stock(title,sub,items){var b=overlay(title,sub);var cats=[];items.forEach(function(x){if(cats.indexOf(x.cat)<0)cats.push(x.cat)});
+ b.appendChild(el('p','ccm-quiet',items.length+' lines \u00b7 '+items.filter(function(x){return x.st==='Low'}).length+' low'));
+ table(b,items,[['Item','item'],['Group','cat'],['On Hand','qty'],['Min','min'],['Location','loc'],['Status','st',function(r){return chip(r.st,r.st==='Low'?'warn':'ok')}]],{sort:'cat',ph:'Search items',filter:{key:'cat',vals:cats}});label(b)}
+window.CCM={members:members,scheduling:scheduling,financial:financial,pinglog:pinglog,orders:orders,stock:stock,tz:TZ};
 })();

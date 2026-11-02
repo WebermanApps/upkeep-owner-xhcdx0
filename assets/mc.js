@@ -50,10 +50,7 @@ P['team-technicians']=function(b){var t=D.teams.find(function(x){return x.id==='
 P['team-scheduling']=function(b){var t=D.teams.find(function(x){return x.id==='scheduling'});if(!t)return;
  if(window.CCM)CCM.scheduling(b);else b.appendChild(ro(t.stats.slice(0,4)));
  b.appendChild(needBand(t)); /* green when all clear (note) */
- b.appendChild(el('p','mc-sec','Scheduling Requests'));
- var req=t.main.rows||[];
- b.appendChild(rows(req,4));
- var mh=moreHint(req.length,4);if(mh)b.appendChild(mh)};
+ var req=t.main.rows||[];var sd=el('details','mc-fold ccm-sreq '+(req.length?'lv-yellow':'lv-green')),ss=el('summary');ss.append(el('b',null,'Scheduling Requests'),el('span','ccm-badge',String(req.length)));sd.appendChild(ss);var sx=el('div');sx.appendChild(rows(req,99));sd.appendChild(sx);b.appendChild(sd)};
 /* Tools freewrite: per-van subsections + At the Shop (van lows separate from shop lows). Needs when relevant. */
 P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id==='tools-equipment'});if(!t)return;
  b.appendChild(ro(t.stats.slice(0,4)));
@@ -62,7 +59,7 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  var vanIds=Object.keys(vans).sort(function(a,b){return (+a)-(+b)});
  vanIds.forEach(function(vid){var lows=vans[vid].filter(function(x){return x.st==='Below min'});
   var blk=el('div','mc-van');
-  var hd=el('div','mc-van-h');hd.append(el('b',null,'Van #'+vid),el('span',null,'Tech Dash '+vid));
+  var hd=el('div','mc-van-h ccm-clk');hd.append(el('b',null,'Van #'+vid),el('span',null,'Tech Dash '+vid));hd.tabIndex=0;hd.setAttribute('role','button');hd.title='Open full van list';hd.onclick=function(){if(window.CCM)CCM.stock('Van #'+vid,'Tech Dash '+vid+' \u00b7 everything on the van',vans[vid].map(function(x){return {item:x.item,cat:x.cat,qty:x.on,min:x.min,loc:'Van '+vid,st:x.st==='Below min'?'Low':'OK'}}))};hd.onkeydown=function(e){if(e.key==='Enter')hd.onclick()};
   hd.appendChild(chip(lows.length?lows.length+' low \u00b7 Red':'OK \u00b7 Green',lows.length?'red':'ok'));blk.classList.add(lows.length?'lv-red':'lv-green');
   blk.appendChild(hd);
   if(lows.length){var u=el('ul','mc-rows');lows.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.item));s.appendChild(el('small',null,x.cat+' · '+x.on+' on · min '+x.min));li.appendChild(s);li.appendChild(chip('Below min','red'));u.appendChild(li)});blk.appendChild(u)}
@@ -70,7 +67,7 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
   b.appendChild(blk)});
  /* At the Shop — shared / shop-shelf lows (not invented counts). Prefer gear.shop; else shared needs (Van 1-3) + clear. */
  var shop=el('div','mc-shop');
- var sh=el('div','mc-van-h');sh.append(el('b',null,'Inventory'),el('span',null,'At the shop'));
+ var sh=el('div','mc-van-h ccm-clk');sh.append(el('b',null,'At The Shop'),el('span',null,'Inventory'));sh.tabIndex=0;sh.setAttribute('role','button');sh.title='Open full shop list';sh.onclick=function(){if(window.CCM)CCM.stock('At The Shop','Inventory \u00b7 everything stored at the shop',(D.gear.shop_full||[]).map(function(x){return {item:x.item,cat:x.cat,qty:x.qty,min:x.min,loc:x.loc,st:x.st}}))};sh.onkeydown=function(e){if(e.key==='Enter')sh.onclick()};
  var shopLines=[];
  if(D.gear&&D.gear.shop&&D.gear.shop.length){shopLines=D.gear.shop}
  else{(t.needs||[]).forEach(function(n){if(/Van 1-3|all vans|shop/i.test(n.s||'')||/Van 1-3|all vans|shop/i.test(n.t||''))shopLines.push({t:n.t,s:n.s||'Shared restock',chip:n.chip||['Shop','shop']})})}
@@ -125,5 +122,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11k'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11l'};
 })();

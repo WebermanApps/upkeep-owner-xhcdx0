@@ -115,3 +115,16 @@ html.mc .mc-tabs{background:#F4F4F4!important;border-top:1px solid #DDDDDD!impor
 .ccm-rq li{grid-template-columns:90px 1fr}
 .mc-van.lv-red,.mc-shop.lv-red{border-left:4px solid #B02030}.mc-van.lv-green,.mc-shop.lv-green{border-left:4px solid #0B6E4F}.mc-shop.lv-yellow{border-left:4px solid #C47A00}
 @media (max-width:560px){.ccm-oh{flex-wrap:wrap}.ccm-kv{grid-template-columns:1fr 1fr}.ccm-vh li{grid-template-columns:96px 1fr}.ccm-vh li .ccm-chip{grid-column:2;justify-self:start}}
+
+/* uk11l: Scheduling calendar as main display */
+.ccm-pcal .ccm-cal{margin:4px 0 6px;padding:6px}
+.ccm-pcal .ccm-calg{gap:2px}.ccm-pcal .ccm-calg .cd{min-height:34px;padding:2px}
+.ccm-pcal .ccm-calh b{font-size:15px}.ccm-pcal .ccm-calh button{width:32px;height:28px}
+.ccm-pcal .ccm-day h4{font-size:14px}.ccm-pcal .ccm-vl li{grid-template-columns:96px 1fr;gap:4px 8px}.ccm-pcal .ccm-vl li .ccm-chip{grid-column:2;justify-self:start}
+@media (min-width:1100px){.ccm-pcal .ccm-calg .cd{min-height:30px}}
+.ccm-sreq summary{display:flex!important;align-items:center;gap:8px}.ccm-sreq summary b{flex:1}
+.ccm-sreq.lv-yellow summary{background:#FFF4D6!important;border-left:4px solid #C47A00;color:#5a3d00}
+.ccm-sreq.lv-green summary{background:#E7F4EC!important;border-left:4px solid #0B6E4F;color:#0B4F38}
+.ccm-sreq.lv-yellow .ccm-badge{background:#8A5A00}.ccm-sreq.lv-green .ccm-badge{background:#0B6E4F}
+.ccm-clk{cursor:pointer}.ccm-clk:hover b,.ccm-clk:focus-visible b{text-decoration:underline}.ccm-clk::after{content:"\203A";margin-left:4px;color:#555;font-weight:700}
+.ccm-sreq summary .ccm-badge{flex:none!important;width:auto!important;min-width:22px;color:#fff!important;font-size:12px!important;margin:0!important}.ccm-sreq summary b{color:inherit}

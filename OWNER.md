@@ -105,3 +105,8 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Header date is today's real date in Detroit time (mc-head.js). Members tiles 2x2 on desktop.
 - Stock demo: Inventory yellow (gear.shop), Van 1 green, Van 2 red; Order Approval orders are built from those flagged items.
 - Financial: 4 tiles (Monthly Revenue, Avg Rev/Member, Cash On Hand, Profit), each with a pop-up. Cache tag `uk11k`.
+
+## uk11l (Nov 2 2026, Machan): Scheduling calendar main display
+- Scheduling: month calendar always visible under the 4 tiles (dots/days clickable); Scheduling Requests is a collapsed dropdown, yellow header with count badge when 1+ (green at 0).
+- Tools: stock names Title Case; Below Min stat from current data (2, Van 2). Van and At The Shop (Inventory) headers open full grouped, searchable lists (gear.shop_full).
+- Board tab bar hidden on the main page only (inline style); sub-boards unchanged. Cache tag `uk11l`.
