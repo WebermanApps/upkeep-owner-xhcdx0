@@ -35,6 +35,8 @@ b.appendChild(rowsList(na));
 (T('tools-equipment').folds||[]).filter(function(f){return f.rows&&f.rows.length}).forEach(function(f){drop(b,f.h,f.rows.length,null,function(x){x.appendChild(rowsList(f.rows))})});
 /* Financial */
 b=section('financial','Financial','Example numbers for 20 demo members');C.financial(b);
+/* Warm List */
+if(window.WARM){b=section('warm','Warm List','Founding homes we know personally');var wc=el('span','wl-count');b.parentNode.querySelector('.v2-sh').appendChild(wc);WARM.render(b,{count:wc})}
 /* Marketing */
 b=section('marketing','Marketing','Early placeholders, not live');tiles(b,[['Reach','\u2014','not tracking yet'],['Click Rate','\u2014','not tracking yet'],['Leads','\u2014','not tracking yet'],['Spend','\u2014','not tracking yet']]);
 b.appendChild(el('p','ccm-quiet','Campaigns start after the welcome deck is approved.'));

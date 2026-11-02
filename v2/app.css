@@ -47,3 +47,27 @@ h1,h2,h3,h4{font-family:Khand,sans-serif;text-transform:none;letter-spacing:0}
 .ccm-box{border-radius:14px;border:0}.ccm-x,.ccm-back{border-radius:8px}
 footer.v2-ft{text-align:center;color:var(--mu);font-size:13px;padding:8px 16px 28px}footer.v2-ft p{margin:4px 0}
 button,input,textarea,select{font-family:inherit}
+/* v2b: desktop sizing matched to the main page (content width, tile sizes, font sizes, density) */
+@media (min-width:1100px){
+ html,body{font-size:13px;line-height:1.35}
+ body{padding-right:396px}#v2-ping{width:388px}
+ .v2-hd{padding:10px clamp(12px,2.2vw,40px)}.v2-hd img{width:28px;height:28px}.v2-hd h1{font-size:20px}.v2-hd .dt{font-size:12px}
+ .v2-wrap{padding:12px clamp(12px,2.2vw,40px) 24px}
+ #v2-main{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ #s-warm{grid-column:1 / -1}
+ .v2-sec{padding:10px 12px 11px;border-radius:10px}
+ .v2-sh{margin-bottom:8px}.v2-sh h2{font-size:18px}.v2-sh p{font-size:11.5px}
+ .v2-sec .ccm-tiles,.v2-sec .ccm-tiles.fin{gap:6px;margin-bottom:8px}
+ .v2-sec .ccm-tile{min-height:58px;padding:7px 8px;border-radius:8px}
+ .v2-sec .ccm-tile b{font-size:22px}.v2-sec .ccm-tiles.fin .ccm-tile b{font-size:19px}
+ .v2-sec .ccm-tile span{font-size:13px;margin-top:2px}.v2-sec .ccm-tile small{font-size:11px}
+ .v2-sec .ccm-tile::before{top:8px;right:8px;width:7px;height:7px}
+ .v2-h,.v2-sec .ccm-h4{font-size:15px;margin:10px 0 4px}
+ .v2-sec .ccm-msgs li{padding:7px 4px}.v2-sec .ccm-msgs b{font-size:14px}
+ .v2-sec .ccm-calg .cd{min-height:34px;border-radius:6px}.v2-sec .ccm-calh b{font-size:15px}
+ .v2-drop{margin-top:8px;border-radius:8px}.v2-drop summary{padding:7px 10px;font-size:14px}
+ .v2-rows li{padding:6px 0}.v2-rows small{font-size:12px}
+ .v2-bar{font-size:13px}.v2-orders .ccm-ordbox{padding:8px 10px}.v2-orders .ccm-ordbox b{font-size:15px}
+ #v2-ping{padding:12px}#v2-ping h2{font-size:18px}
+ .v2-sec .ccm-tiles.wl-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
+}

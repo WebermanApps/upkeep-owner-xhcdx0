@@ -81,6 +81,7 @@ P.marketing=function(b){b.appendChild(el('p','mc-quiet','Early marketing KPIs (p
  b.appendChild(el('p','mc-quiet','Full campaigns board still open (18vb3b). This tile shows early metric slots only.'));
  var g=el('div','mc-ro');[['Reach','—','early'],['CTR','—','early'],['Leads','—','early'],['Spend','—','early']].forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));c.appendChild(el('small',null,s[2]));g.appendChild(c)});b.appendChild(g)};
 /* Ping Log l8sm55: Always-expanded table · team tabs · 5 rows before scroll · quiet chevron */
+P.warm=function(b){if(!window.WARM)return;var hd=b.parentNode.querySelector('.mc-ph'),c=el('span','wl-count');if(hd)hd.insertBefore(c,hd.querySelector('.sp')||null);WARM.render(b,{count:c})};
 P.financial=function(b){if(window.CCM)CCM.financial(b)};
 P.pinglog=function(b){if(window.CCM){document.body.classList.add('ccm-side');return CCM.pinglog(b,b.parentNode)}var lk=el('p','mc-lock');lk.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';lk.appendChild(document.createTextNode('Locked log · UK-YYYYMMDD-NN · '));lk.appendChild(el('span','test','TEST'));
  var chev=el('button','mc-chev');chev.type='button';chev.setAttribute('aria-label','Ping Log panel');chev.innerHTML='&#9662;';chev.title='Always expanded';b.append(lk,chev);
@@ -122,5 +123,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11l'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11m'};
 })();

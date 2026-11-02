@@ -1,0 +1,16 @@
+/* Warm List */
+.wl-t td{vertical-align:top}.wl-nm{font-weight:600;white-space:nowrap}
+.wl-ct{min-width:220px}.wl-c{font:500 11px Hind,sans-serif;border:1px solid #d6d6d6;background:#fff;color:#555;padding:2px 7px;margin:0 3px 3px 0;cursor:pointer;border-radius:12px}
+.wl-c.on{background:#05668D;border-color:#05668D;color:#fff}
+.wl-st{font:500 13px Hind,sans-serif;padding:4px 6px;border:1px solid #cfcfcf;background:#fff;color:#1a1a1a;border-radius:6px}
+.wl-st.st-1{border-color:#999}.wl-st.st-2{background:#FFF4D6;border-color:#C47A00}.wl-st.st-3{background:#E8F1F5;border-color:#05668D}.wl-st.st-4{background:#E7F4EC;border-color:#0B6E4F}
+.wl-next{font:13px Hind,sans-serif;width:100%;min-width:140px;padding:4px 6px;border:1px solid #e0e0e0;border-radius:6px}
+.wl-del{font:600 12px Hind,sans-serif;border:1px solid #cfcfcf;background:#fff;color:#A33F20;padding:3px 8px;cursor:pointer;border-radius:6px}
+.wl-add{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.wl-add input,.wl-add select{font:14px Hind,sans-serif;padding:6px 8px;border:1px solid #cfcfcf;border-radius:6px;min-height:36px;flex:1 1 130px;background:#fff;color:#1a1a1a}
+.wl-add button{font:600 14px Hind,sans-serif;padding:6px 12px;min-height:36px;border-radius:6px;cursor:pointer;border:1px solid #1a1a1a;background:#1a1a1a;color:#fff}
+.wl-add .wl-delall{background:#fff;color:#A33F20;border-color:#A33F20}
+.wl-reset{all:unset;cursor:pointer;text-decoration:underline;color:#555}
+.wl-count{font:600 13px Hind,sans-serif;color:#555;white-space:nowrap}
+@media (max-width:700px){.wl-t thead{display:none}.wl-t,.wl-t tbody,.wl-t tr,.wl-t td{display:block;width:100%}.wl-t tr{border-bottom:1px solid #e6e6e6;padding:8px 0;position:relative}.wl-t td{border:0;padding:3px 4px}.wl-t td:nth-child(2),.wl-t td:nth-child(3){display:inline-block;width:auto;color:#666;font-size:13px}.wl-t td:nth-child(2)::after{content:' \00b7'}.wl-t td:last-child{position:absolute;top:8px;right:0;width:auto}.wl-ct{min-width:0}}
+.wl-ct{min-width:0;white-space:normal}.wl-t .wl-c{margin:0 2px 2px 0}.wl-next{min-width:110px}.wl-t td{padding:6px 8px}@media (min-width:701px){.wl-t td:nth-child(4){min-width:250px}}
+.p-warm .wl-t{font-size:13px}.p-warm .wl-st{font-size:12px;padding:2px 4px}.p-warm .wl-next{min-width:90px;font-size:12px}.p-warm .wl-c{font-size:10.5px;padding:1px 6px}

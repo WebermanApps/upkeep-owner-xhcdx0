@@ -169,5 +169,5 @@ function orders(b){var host=el('div','ccm-orders');b.appendChild(host);function 
 function stock(title,sub,items){var b=overlay(title,sub);var cats=[];items.forEach(function(x){if(cats.indexOf(x.cat)<0)cats.push(x.cat)});
  b.appendChild(el('p','ccm-quiet',items.length+' lines \u00b7 '+items.filter(function(x){return x.st==='Low'}).length+' low'));
  table(b,items,[['Item','item'],['Group','cat'],['On Hand','qty'],['Min','min'],['Location','loc'],['Status','st',function(r){return chip(r.st,r.st==='Low'?'warn':'ok')}]],{sort:'cat',ph:'Search items',filter:{key:'cat',vals:cats}});label(b)}
-window.CCM={members:members,scheduling:scheduling,financial:financial,pinglog:pinglog,orders:orders,stock:stock,tz:TZ};
+window.CCM={D:D,el:el,chip:chip,overlay:overlay,table:table,label:label,money:money,members:members,scheduling:scheduling,financial:financial,pinglog:pinglog,orders:orders,stock:stock,tz:TZ};
 })();

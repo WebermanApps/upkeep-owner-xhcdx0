@@ -113,3 +113,8 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 
 ## v2 preview (Nov 2 2026, Machan): simplicity-first redesign at /v2/ (locked, same password, not linked anywhere)
 - `v2/index.html` (locked; same ccm-data + mc-data blocks), `v2/ccm.js` (copy of assets/ccm.js with extra exports), `v2/app.js` (section template: title, 4 tiles, main view, dropdowns), `v2/ccm.css`, `v2/app.css`. Main page unchanged.
+
+## uk11m (Nov 2 2026, Machan): Warm List tracker (main + v2)
+- REAL personal data: the 18 homes live ONLY in the locked `#warm-data` block of `index.html` and `v2/index.html` (name, relationship, city or TBD; no street addresses). Source: /workspace/upkeep/warm-list/list.txt (private). Never add a plaintext copy.
+- `assets/warm.js` + `warm.css` (copies in v2/): 4 tiles (Sent, Interested, Booked Scan, Member; cumulative), table with status, content ticks, next step, add, delete, Delete All, Restore. Edits in localStorage `ccm-warm-v1`.
+- v2 desktop sizing matched to the main page (v2b). Cache tags uk11m / v2b.
