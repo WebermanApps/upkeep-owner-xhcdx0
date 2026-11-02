@@ -41,7 +41,7 @@ function seedList(){return SEED.map(function(x){return {t:x[0],m:x[1],d:!!x[2]}}
 var TL=[['November 2026 · Before Launch',['Finalize the offer terms and the refund rule','Swipe the decks','Add the last 7 warm-list homes','Approve the script','Film the talking-head video with Ethan (line him up for November)','Final video edit','Build the real sign-up and payment backend','Draft the member agreement and refund policy with Legal','Set up the LLC and payments','Make the pricing decision']],
 ['Dec 1 2026 · Launch',['Invites go out by text first, then the video, then a mailer, three days apart','Invite pages move to smartupkeep.ai with no password','Remove the beta password']],
 ['December 2026',['Hire Ethan and get him certified (EPA 608, Lead-Safe, OSHA 10, CPR); paid training hours start, about 40 hours (estimate)','Buy, stock and insure the van']],
-['January 2027',['No visits on Jan 1 or Jan 4–8','Jan 11: first demo home · Jan 12: second · Jan 13: two homes','Remaining 21 demo homes through Jan 29: 1 visit each Friday, 2 each other weekday']]];
+['January 2027',['No visits on Jan 1 or Jan 4–8','Jan 11: first demo home · Jan 12: second · Jan 13: two homes','Founding 50: remaining 46 homes from Jan 14 to Feb 5, up to 3 visits a day Monday to Thursday and 2 on Fridays']]];
 function load(){try{var x=JSON.parse(localStorage.getItem(LK));if(Array.isArray(x))return x}catch(e){}return seedList()}
 function save(x){try{localStorage.setItem(LK,JSON.stringify(x))}catch(e){}}
 function isV2(){return !!document.getElementById('s-warm')}
@@ -62,7 +62,7 @@ function fold(w,st,K,cntFn){if(!w||w.dataset.lcFold)return;w.dataset.lcFold='1';
  function set(o){w.classList.toggle('wl-closed',!o);h.setAttribute('aria-expanded',String(o));try{localStorage.setItem(K,o?'1':'0')}catch(e){}cnt()}
  h.addEventListener('click',function(e){if(e.target.closest('button,a,input,select'))return;set(w.classList.contains('wl-closed'))});h.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click()}});
  w.addEventListener('change',cnt);set(localStorage.getItem(K)==='1')}
-function warmCount(){var n=0,t=0;try{var s=JSON.parse(localStorage.getItem('ccm-warm-v1'));if(s&&s.homes){t=s.homes.length;n=s.homes.filter(function(x){return x.status==='Member'}).length}}catch(e){}if(!t){try{var sd=JSON.parse(document.getElementById('warm-data').textContent);n=sd.homes.filter(function(x){return x.status==='Member'}).length}catch(e){n=25}}return n+' Members'}
+function warmCount(){var n=0,t=0;try{var s=JSON.parse(localStorage.getItem('ccm-warm-v1'));if(s&&s.homes){t=s.homes.length;n=s.homes.filter(function(x){return x.status==='Member'}).length}}catch(e){}if(!t){try{var sd=JSON.parse(document.getElementById('warm-data').textContent);n=sd.homes.filter(function(x){return x.status==='Member'}).length}catch(e){n=50}}return n+' Members'}
 function warmFold(st){fold(document.getElementById('p-warm')||document.getElementById('s-warm'),st,'warmList.open',warmCount)}
 function mktFold(st){var m=document.getElementById('p-marketing')||document.getElementById('s-marketing');if(!m||m.dataset.lcFold)return;
  var pb=m.querySelector('.mc-pb');if(pb&&window.CCM&&CCM.adTiles&&!m.querySelector('.ccm-ad')){var g=CCM.adTiles(document.createElement('div'));pb.insertBefore(g,pb.firstChild)}
