@@ -1,4 +1,4 @@
-/* uk11i UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
+/* uk11j: Members/Scheduling/Financial via assets/ccm.js; Ping Log side column. uk11i UpKeep Command Center: MacBook-fit 6 panels; no header Needs Machan;
    tile content per Oct 28 deck locks (Members/Technicians/Scheduling/Ping Log) +
    Tools vans+shop freewrite; Marketing summary. UpKeep Develop / Machan Oct 28 2026.
    Reads only the inline #mc-data block (TEST snapshot). Clears legacy ukcc-layout-uk11f. */
@@ -28,7 +28,7 @@ function td(r,v,c){var x=el('td',c||null);if(v instanceof Node)x.appendChild(v);
 var P={};
 /* ---------- specialized tiles (deck locks Oct 28) ---------- */
 /* Members v7bucs: Primary metrics · 4 pills · Needs OFF · open messages list · 4 then more · mid density */
-P['team-members']=function(b){var t=D.teams.find(function(x){return x.id==='members'});if(!t)return;
+P['team-members']=function(b){if(window.CCM)return CCM.members(b);var t=D.teams.find(function(x){return x.id==='members'});if(!t)return;
  b.appendChild(ro(t.stats.slice(0,4)));
  /* Needs Machan OFF on Members tile — still keep a hidden anchor if linked elsewhere */
  b.appendChild(needBand(t,{hide:true}));
@@ -48,7 +48,7 @@ P['team-technicians']=function(b){var t=D.teams.find(function(x){return x.id==='
  if(!t.needs.length){(t.folds||[]).filter(function(f){return !/week load/i.test(f.h)}).slice(0,2).forEach(function(f){b.appendChild(fold(f.h,f.n,f.sum,function(x){if(f.rows)x.appendChild(rows(f.rows,3));if(f.bars)f.bars.forEach(function(br){var r=el('div','mc-bar'),i=el('i'),u=el('u');u.style.width=(br.v/br.max*100)+'%';i.appendChild(u);r.append(el('span',null,br.t),i,el('em',null,br.r));x.appendChild(r)});if(f.note)x.appendChild(el('p','mc-quiet',f.note))}))})}};
 /* Scheduling hqq4gd: Metrics · green clear Needs · separate Scheduling Requests (not under Needs) · 4 rows */
 P['team-scheduling']=function(b){var t=D.teams.find(function(x){return x.id==='scheduling'});if(!t)return;
- b.appendChild(ro(t.stats.slice(0,4)));
+ if(window.CCM)CCM.scheduling(b);else b.appendChild(ro(t.stats.slice(0,4)));
  b.appendChild(needBand(t)); /* green when all clear (note) */
  b.appendChild(el('p','mc-sec','Scheduling Requests'));
  var req=t.main.rows||[];
@@ -78,13 +78,14 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  shop.appendChild(sh);
  if(shopLines.length){var u2=el('ul','mc-rows');shopLines.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t||x.item));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);if(x.chip)li.appendChild(chip(x.chip[0],x.chip[1]||'shop'));u2.appendChild(li)});shop.appendChild(u2)}
  else shop.appendChild(el('p','mc-quiet','No shop lows (TEST)'));
- b.appendChild(shop)};
+ b.appendChild(shop);if(window.CCM)CCM.orders(b)};
 /* Marketing summary placeholder (18vb3b still open — keep summary only) */
 P.marketing=function(b){b.appendChild(el('p','mc-quiet','Early marketing KPIs (placeholders — not live).'));
  b.appendChild(el('p','mc-quiet','Full campaigns board still open (18vb3b). This tile shows early metric slots only.'));
  var g=el('div','mc-ro');[['Reach','—','early'],['CTR','—','early'],['Leads','—','early'],['Spend','—','early']].forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));c.appendChild(el('small',null,s[2]));g.appendChild(c)});b.appendChild(g)};
 /* Ping Log l8sm55: Always-expanded table · team tabs · 5 rows before scroll · quiet chevron */
-P.pinglog=function(b){var lk=el('p','mc-lock');lk.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';lk.appendChild(document.createTextNode('Locked log · UK-YYYYMMDD-NN · '));lk.appendChild(el('span','test','TEST'));
+P.financial=function(b){if(window.CCM)CCM.financial(b)};
+P.pinglog=function(b){if(window.CCM){document.body.classList.add('ccm-side');return CCM.pinglog(b,b.parentNode)}var lk=el('p','mc-lock');lk.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';lk.appendChild(document.createTextNode('Locked log · UK-YYYYMMDD-NN · '));lk.appendChild(el('span','test','TEST'));
  var chev=el('button','mc-chev');chev.type='button';chev.setAttribute('aria-label','Ping Log panel');chev.innerHTML='&#9662;';chev.title='Always expanded';b.append(lk,chev);
  var cur='All',tabs=el('div','mc-ttabs'),box=el('div','mc-ping-body');
  ['All'].concat(D.teams.map(function(t){return t.name})).forEach(function(n){var x=el('button',null,n);x.type='button';x.setAttribute('aria-pressed',String(n===cur));x.addEventListener('click',function(){cur=n;[].forEach.call(tabs.children,function(y){y.setAttribute('aria-pressed',String(y===x))});draw()});tabs.appendChild(x)});
@@ -116,7 +117,7 @@ DEF.forEach(function(p){var s=el('section','mc-p p-'+p.id+(p.team?' is-acc t-'+p
 /* ---------- layout: fixed 6-panel MacBook-fit (3+3 on 6 rows) ---------- */
 try{localStorage.removeItem(LS)}catch(_){}
 var mq=matchMedia('(min-width:1100px)');
-function apply(){Object.keys(map).forEach(function(id){var s=map[id].el,d=map[id].def;if(!mq.matches){s.style.gridArea='';return}s.style.gridArea=d.r+' / '+d.c+' / span '+d.h+' / span '+d.w})}
+function apply(){Object.keys(map).forEach(function(id){var s=map[id].el,d=map[id].def;if(!mq.matches||id==='pinglog'){s.style.gridArea='';return}s.style.gridArea=d.r+' / '+d.c+' / span '+d.h+' / span '+d.w})}
 function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if(!mq.matches){G.style.removeProperty('--rowh');return}
  var avail=Math.max(360,window.innerHeight-hd-ft-(ROWS-1)*8);var rh=Math.floor(avail/ROWS);
  /* Always fit MacBook / desktop viewport — never force oversized fixed rows */
@@ -124,5 +125,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11h'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11j'};
 })();

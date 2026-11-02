@@ -93,3 +93,9 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - Function z7cble: Header Open only · Early KPI placeholders on Marketing · Ping Log keeps important metrics (no collapse-to-3) · Needs only when items exist (no empty Needs headers).
 - Left open / not baked: Light Dashboard bozbb8, Color Tone 7bj9b4, Appearance b54c65, Marketing 18vb3b, Tools 9o9eqp.
 - Tile content from uk11h (v7bucs/u3tf3p/hqq4gd/l8sm55 + Tools vans+shop) preserved.
+
+## uk11j (Nov 2 2026, Machan): Members, Scheduling, Financial, side Ping Log
+- EXAMPLE DATA. New inline `#ccm-data` block in root `index.html` (20 members, ~255 visits, 12 conversations, 6 pending requests, ~60 pings, financials); dates are day offsets resolved against America/Detroit "today".
+- Members demo list cut to 20 in `members/index.html` board-data; the other 80 are archived in the `#members-archive` JSON block in the same locked page (not rendered). Restore by appending them to board-data.members.
+- `assets/ccm.js` + `assets/ccm.css`: Members 4 tiles (Active Members, Visits This Month, Messages, Pending Requests) with sortable pop-up lists, Messages list + chat (replies in localStorage `ccm-demo-uk11j`, logged to Ping Log), Scheduling 4 tiles + calendar, Financial tiles, Tools Order Approval, Ping Log as a fixed right column on desktop (collapsible on phone), white header for WCAG AA contrast.
+- Footers: plain "Built by Machan", no link. Cache tag `uk11j`.
