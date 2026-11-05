@@ -7,20 +7,24 @@
   function mapStatus(s) {
     if (s === "open") return "Open";
     if (s === "claimed") return "In progress";
-    if (s === "done" || s === "cancelled") return "Done";
+    if (s === "done") return "Done";
+    if (s === "cancelled") return "Dismissed";
     return "Open";
   }
 
   function toUi(row) {
-    var label = row.item_label || row.item_id || "Quote request";
+    var label = row.item_label || row.item_id || (row.kind || "Ping").replace(/_/g," ");
     var who = row.member_name || row.member_email || "Member";
     return {
       at: row.created_at || Date.now(),
-      cat: "Requests",
-      type: row.kind === "quote_request" ? "Quote Request" : (row.kind || "Ping"),
+      cat: /^tech_/.test(row.kind || "") ? "Visits" : (row.kind === "message" ? "Messages" : "Requests"),
+      urgent: row.kind === "urgent" || row.kind === "cancel_request" ? 1 : 0,
+      type: ({quote_request:"Quote Request",reschedule:"Reschedule",change_plan:"Change Plan",cancel_request:"Cancel Request",pause_request:"Pause Request",manage_extras:"Manage Extras",book_fix:"Book a Fix",message:"Member Message",urgent:"Urgent",tech_visit_start:"Tech · Visit Started",tech_checkout:"Tech · Report Sent",tech_time_off:"Tech · Time Off",tech_help:"Tech · Help"})[row.kind] || (row.kind || "Ping"),
       summary: label + (row.plan ? " · " + row.plan : "") + (row.notes ? " · " + row.notes : ""),
       member: who,
-      sender: "Member App",
+      sender: /^tech_/.test(row.kind || "") ? "Tech App" : ((row.payload && row.payload.app) === "main" ? "Website" : "Member App"),
+      kind: row.kind || "",
+      email: row.member_email || "",
       state: mapStatus(row.status),
       live: 1,
       id: row.id
@@ -32,7 +36,8 @@
       var key = "ccm-demo-uk11o";
       var s = JSON.parse(localStorage.getItem(key) || "{}");
       s.pings = s.pings || [];
-      if (ui.id && s.pings.some(function (p) { return p.id === ui.id; })) return false;
+      var ex = ui.id && s.pings.filter(function (p) { return p.id === ui.id; })[0];
+      if (ex) { var ch = ex.state !== ui.state; for (var k in ui) ex[k] = ui[k]; if (ch) localStorage.setItem(key, JSON.stringify(s)); return false; }
       s.pings.unshift(ui);
       localStorage.setItem(key, JSON.stringify(s));
       return true;
@@ -107,7 +112,7 @@
   }
 
   async function subscribe(sb) {
-    var res = await sb.from("pings").select("*").order("created_at", { ascending: false }).limit(40);
+    var res = await sb.from("pings").select("*").order("created_at", { ascending: false }).limit(300);
     if (res.error) { console.warn("[su-live-pings] fetch", res.error); return; }
     (res.data || []).slice().reverse().forEach(function (row) { pushLocal(toUi(row)); });
     refreshUi();
@@ -116,9 +121,12 @@
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "pings" }, function (payload) {
           var ui = toUi(payload.new || {});
           if (pushLocal(ui)) {
-            toast("New quote request · " + (ui.summary || ""));
+            toast("New " + ui.type + " · " + (ui.summary || ""));
             refreshUi();
           }
+        })
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "pings" }, function (payload) {
+          pushLocal(toUi(payload.new || {})); refreshUi();
         })
         .subscribe();
     } catch (e) {
@@ -131,6 +139,18 @@
       }, 15000);
     }
   }
+
+  /* Ops clear/dismiss: status update only (history kept). done | cancelled | open. */
+  window.SULivePings = {
+    setStatus: async function (id, status) {
+      var sb = await window.SUAuth.getClient();
+      var r = await sb.from("pings").update({ status: status }).eq("id", id).select();
+      if (r.error) { toast("Could not update ping: " + r.error.message); return; }
+      (r.data || []).forEach(function (row) { pushLocal(toUi(row)); });
+      refreshUi();
+      toast(status === "open" ? "Ping reopened" : status === "done" ? "Marked done" : "Dismissed");
+    }
+  };
 
   async function boot(force) {
     if (!window.SUAuth || !window.SU_SUPABASE) { ensureChip(); return; }
