@@ -29,3 +29,10 @@ function init(n){var p=document.getElementById('p-pinglog')||document.getElement
  setH(document.documentElement.classList.contains('pw-hid'));addEventListener('resize',function(){setW(+localStorage.getItem(WK)||DEF)})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){init(0)});else init(0);
 })();
+
+/* Live Supabase ping bridge (ops session). */
+(function(){
+  function add(src){if(document.querySelector('script[src="'+src+'"]'))return;var s=document.createElement('script');s.src=src;s.defer=true;document.head.appendChild(s)}
+  var base=(document.currentScript&&document.currentScript.src||'').replace(/[^\/]*$/,'');
+  add(base+'su-config.js'); add(base+'su-auth.js'); add(base+'su-live-pings.js');
+})();
