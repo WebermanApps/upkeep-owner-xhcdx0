@@ -9,7 +9,7 @@ function $(i){return document.getElementById(i)}
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function chip(t,c){return el('span','chip '+(c||'mute'),t)}
 function toast(m){var t=el('div','mc-toast',m);t.setAttribute('role','status');document.body.appendChild(t);setTimeout(function(){t.remove()},3200)}
-function stub(l){var b=el('button','mc-b stub',l);b.type='button';b.addEventListener('click',function(){toast('Not connected yet. Nothing was sent or changed (TEST).')});return b}
+function stub(l){var b=el('button','mc-b stub',l);b.type='button';b.addEventListener('click',function(){toast('Not connected yet. Nothing was sent or changed.')});return b}
 function rows(list,lim){var u=el('ul','mc-rows');(list||[]).slice(0,lim||99).forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);if(x.r)li.appendChild(el('em',null,x.r));if(x.chip)li.appendChild(chip(x.chip[0],x.chip[1]));u.appendChild(li)});return u}
 function moreHint(n,shown){if(n>shown){var p=el('p','mc-more','+ '+(n-shown)+' more');return p}return null}
 function fold(h,n,sum,body){var d=el('details','mc-fold'),s=el('summary');s.append(el('b',null,h+(n!=null?' ('+n+')':'')),el('span',null,sum||''));d.appendChild(s);var b=el('div');d.appendChild(b);if(body)body(b);return d}
@@ -74,11 +74,10 @@ P['team-tools-equipment']=function(b){var t=D.teams.find(function(x){return x.id
  sh.appendChild(el('span','lv-dot '+(shopLines.length?'yellow':'green'),shopLines.length?shopLines.length+' low':'Full'));shop.classList.add(shopLines.length?'lv-yellow':'lv-green');
  shop.appendChild(sh);
  if(shopLines.length){var u2=el('ul','mc-rows');shopLines.forEach(function(x){var li=el('li'),s=el('span');s.appendChild(el('b',null,x.t||x.item));if(x.s)s.appendChild(el('small',null,x.s));li.appendChild(s);if(x.chip)li.appendChild(chip(x.chip[0],x.chip[1]||'shop'));u2.appendChild(li)});shop.appendChild(u2)}
- else shop.appendChild(el('p','mc-quiet','No shop lows (TEST)'));
+ else shop.appendChild(el('p','mc-quiet','No shop lows'));
  b.appendChild(shop);if(window.CCM)CCM.orders(b)};
 /* Marketing summary placeholder (18vb3b still open — keep summary only) */
-P.marketing=function(b){b.appendChild(el('p','mc-quiet','Early marketing KPIs (placeholders — not live).'));
- b.appendChild(el('p','mc-quiet','Full campaigns board still open (18vb3b). This tile shows early metric slots only.'));
+P.marketing=function(b){
  var g=el('div','mc-ro');[['Reach','—','early'],['CTR','—','early'],['Leads','—','early'],['Spend','—','early']].forEach(function(s){var c=el('div');c.append(el('b','num',s[1]),el('span',null,s[0]));c.appendChild(el('small',null,s[2]));g.appendChild(c)});b.appendChild(g)};
 /* Ping Log l8sm55: Always-expanded table · team tabs · 5 rows before scroll · quiet chevron */
 P.warm=function(b){if(!window.WARM)return;var hd=b.parentNode.querySelector('.mc-ph'),c=el('span','wl-count');if(hd)hd.insertBefore(c,hd.querySelector('.sp')||null);WARM.render(b,{count:c})};
@@ -123,5 +122,5 @@ function sizeRows(){var hd=G.getBoundingClientRect().top+window.scrollY,ft=36;if
 function onmq(){document.body.classList.remove('mc-drag');apply();sizeRows()}
 mq.addEventListener?mq.addEventListener('change',onmq):mq.addListener(onmq);window.addEventListener('resize',sizeRows);onmq();
 var a=$('mc-asof');if(a)a.textContent=D.asof_line;
-window.__mc={layoutKey:LS,fixed:true,tag:'uk11o'};
+window.__mc={layoutKey:LS,fixed:true,tag:'uk11p'};
 })();
