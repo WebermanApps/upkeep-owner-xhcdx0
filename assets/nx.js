@@ -9,10 +9,6 @@ var G=$('mc-grid');if(!G)return;
 var LS='ccm-nx-open-v1',phone=window.matchMedia&&matchMedia('(max-width:1099px)');
 function st(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(_){return {}}}
 function put(o){try{localStorage.setItem(LS,JSON.stringify(o))}catch(_){}}
-/* one discreet preview notice */
-var main=G.parentNode,pv=el('p','nx-preview');pv.setAttribute('role','note');
-pv.append(el('b',null,'Preview'),document.createTextNode(' \u00b7 example data as of Jan 1 2027 \u00b7 replies and decisions stay on this device'));
-main.insertBefore(pv,G);
 /* expandable sections (phone first: Members open by default; desktop keeps all open) */
 var DEFOPEN={'team-members':1};
 [].forEach.call(G.querySelectorAll('.mc-p'),function(s){var id=s.id.replace(/^p-/,''),h=s.querySelector('.mc-ph'),bd=s.querySelector('.mc-pb');if(!h||!bd)return;
