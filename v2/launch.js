@@ -42,7 +42,7 @@ function seedList(){return SEED.map(function(x){return {t:x[0],m:x[1],d:!!x[2]}}
 var TL=[['November 2026 · Before Launch',['Finalize the offer terms and the refund rule','Swipe the decks','Add the last 7 warm-list homes','Approve the script','Film the talking-head video with Ethan (line him up for November)','Final video edit','Build the real sign-up and payment backend','Draft the member agreement and refund policy with Legal','Set up the LLC and payments','Make the pricing decision']],
 ['Dec 1 2026 · Launch',['Invites go out by text first, then the video, then a mailer, three days apart','Invite pages move to smartupkeep.ai with no password','Remove the beta password']],
 ['December 2026',['Hire Ethan and get him certified (EPA 608, Lead-Safe, OSHA 10, CPR); paid training hours start, about 40 hours (estimate)','Buy, stock and insure the van']],
-['January 2027',['No visits on Jan 1 or Jan 4–8','Jan 11: first demo home · Jan 12: second · Jan 13: two homes','Founding 50: remaining 46 homes from Jan 14 to Feb 5, up to 3 visits a day Monday to Thursday and 2 on Fridays']]];
+['January 2027',['No visits on Jan 1 or Jan 4–8','Jan 11: first home · Jan 12: second · Jan 13: two homes','Founding 50: remaining 46 homes from Jan 14 to Feb 5, up to 3 visits a day Monday to Thursday and 2 on Fridays']]];
 function load(){try{var x=JSON.parse(localStorage.getItem(LK));if(Array.isArray(x))return x}catch(e){}return seedList()}
 function save(x){try{localStorage.setItem(LK,JSON.stringify(x))}catch(e){}}
 function isV2(){return !!document.getElementById('s-warm')}
