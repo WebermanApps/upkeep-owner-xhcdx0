@@ -118,3 +118,6 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 - REAL personal data: the 18 homes live ONLY in the locked `#warm-data` block of `index.html` and `v2/index.html` (name, relationship, city or TBD; no street addresses). Source: /workspace/upkeep/warm-list/list.txt (private). Never add a plaintext copy.
 - `assets/warm.js` + `warm.css` (copies in v2/): 4 tiles (Sent, Interested, Booked Scan, Member; cumulative), table with status, content ticks, next step, add, delete, Delete All, Restore. Edits in localStorage `ccm-warm-v1`.
 - v2 desktop sizing matched to the main page (v2b). Cache tags uk11m / v2b.
+
+## Nov 9 2026
+The legacy `/s/` section pages were taken down (Machan, 10:22 PM ICT): `s/`, `org.js`, `org.css` and `tools/update_data.py` deleted. Notes above about `s/`, `org.js` and `update_data.py` are historical.
