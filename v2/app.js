@@ -12,7 +12,7 @@ function drop(b,title,n,tone,fill,open,key){var d=el('details','v2-drop'+(tone?'
 function rowsList(list){var u=el('ul','v2-rows');list.forEach(function(r){var li=el('li'),s=el('span');s.appendChild(el('b',null,tc(r.t)));if(r.s)s.appendChild(el('small',null,r.s));li.appendChild(s);if(r.r)li.appendChild(el('em',null,r.r));u.appendChild(li)});return u}
 function bars(list){var w=el('div','v2-bars');list.forEach(function(br){var r=el('div','v2-bar'),i=el('i'),u=el('u');u.style.width=Math.min(100,br.v/br.max*100)+'%';i.appendChild(u);r.append(el('span',null,br.t),i,el('em',null,br.r));w.appendChild(r)});return w}
 /* Members */
-var b=section('members','Members','20 demo members');C.members(b);
+var b=section('members','Members','Founding members');C.members(b);
 var mt=T('members');if(mt.needs.length)drop(b,'Needs Machan',mt.needs.length,'yellow',function(x){x.appendChild(rowsList(mt.needs))},false,'ccm-need-members');
 /* Scheduling */
 b=section('scheduling','Scheduling','Day boundaries in Detroit Time');C.scheduling(b);
@@ -35,11 +35,11 @@ b.appendChild(el('h4','v2-h','Needs Attention'));var na=[];g.vans.filter(functio
 b.appendChild(rowsList(na));
 (T('tools-equipment').folds||[]).filter(function(f){return f.rows&&f.rows.length}).forEach(function(f){drop(b,f.h,f.rows.length,null,function(x){x.appendChild(rowsList(f.rows))})});
 /* Financial */
-b=section('financial','Financial','Example numbers for 20 demo members');C.financial(b);
+b=section('financial','Financial','Estimates for the Founding 50');C.financial(b);
 /* Warm List */
 if(window.WARM){b=section('warm','Warm List','Founding homes we know personally');var wc=el('span','wl-count');b.parentNode.querySelector('.v2-sh').appendChild(wc);WARM.render(b,{count:wc})}
 /* Marketing */
-b=section('marketing','Marketing','Early placeholders, not live');tiles(b,[['Reach','\u2014','not tracking yet'],['Click Rate','\u2014','not tracking yet'],['Leads','\u2014','not tracking yet'],['Spend','\u2014','not tracking yet']]);
+b=section('marketing','Marketing','Not tracking yet');tiles(b,[['Reach','\u2014','not tracking yet'],['Click Rate','\u2014','not tracking yet'],['Leads','\u2014','not tracking yet'],['Spend','\u2014','not tracking yet']]);
 b.appendChild(el('p','ccm-quiet','Campaigns start after the welcome deck is approved.'));
 /* Projects: Routines + Document Center */
 b=section('projects','Projects','Routines and documents');drop(b,'Routines',0,null,function(x){x.appendChild(el('p','ccm-quiet','No routines yet.'))});drop(b,'Document Center',0,null,function(x){x.appendChild(el('p','ccm-quiet','Team documents live on each board (Members has its welcome docs).'))});
