@@ -237,6 +237,9 @@ body.cc-one .mc-ro b{
 
 /* Launch Checklist / Timeline use the same mini card; never clip the title or the old header count */
 body.cc-one .lc-sec .lc-c,body.cc-one .lc-sec .lc-ch{display:none!important}
+body.cc-one .lc-sec .nx-tog{margin-left:auto}
+body.cc-one #launch-timeline .nx-mini{grid-template-columns:minmax(0,1fr) auto}
+body.cc-one .nx-k.nx-wide b{white-space:normal;word-break:break-word}
 body.cc-one .lc-sec .lc-sum h2,body.cc-one .lc-sec>summary h2{
   flex:none;min-width:0;max-width:none;
   white-space:nowrap;overflow:visible;text-overflow:clip;

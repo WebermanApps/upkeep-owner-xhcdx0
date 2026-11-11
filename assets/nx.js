@@ -90,13 +90,50 @@ function fmtMileDate(x){
   if(x.hasDay)return x.date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   return x.date.toLocaleDateString('en-US',{month:'long',year:'numeric'});
 }
+function scenarioToday(){
+  var raw=(CD.fin2&&CD.fin2.today)||MC.sim||MC.asof_line||CD.label||'';
+  var m=String(raw).match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/i);
+  if(m){
+    var mon={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+    var d=new Date(+m[3],mon[m[1].slice(0,3).toLowerCase()],+m[2]);
+    if(!isNaN(d.getTime())){d.setHours(0,0,0,0);return d}
+  }
+  var t=new Date();t.setHours(0,0,0,0);return t;
+}
+function isDateOnlyLabel(s){
+  var t=String(s||'').replace(/\s+/g,' ').trim();
+  if(!t)return false;
+  var mon='January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec';
+  var day='Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday';
+  if(new RegExp('^(?:(?:'+day+')[,\\s]+)?(?:'+mon+')\\s+\\d{4}$','i').test(t))return true;
+  if(new RegExp('^(?:(?:'+day+')[,\\s]+)?(?:'+mon+')\\s+\\d{1,2},?\\s+\\d{4}$','i').test(t))return true;
+  if(new RegExp('^\\d{1,2}\\s+(?:'+mon+')\\s+\\d{4}$','i').test(t))return true;
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(t))return true;
+  if(/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(t))return true;
+  var ms=Date.parse(t);
+  if(isNaN(ms))return false;
+  var leftover=t.replace(new RegExp(mon,'ig'),' ').replace(new RegExp(day,'ig'),' ').replace(/[0-9,./\-]/g,' ').replace(/\s+/g,' ').trim();
+  leftover=leftover.replace(/\b(of|the|st|nd|rd|th)\b/ig,'').replace(/\s+/g,' ').trim();
+  return !leftover;
+}
+function nextLine(mile){
+  if(!mile)return '';
+  var name=mile.name||'';
+  var dt=fmtMileDate(mile);
+  var dateText=(dt&&dt!=='—')?dt:name;
+  if(!name||isDateOnlyLabel(name))return 'Next Milestone · '+dateText;
+  if(dt&&dt!=='—'&&name.toLowerCase()!==dt.toLowerCase()&&name.toLowerCase().indexOf(dt.toLowerCase())===-1){
+    return 'Next '+name+' · '+dt;
+  }
+  return 'Next '+name;
+}
 function nextMilestone(){
   var items=[];
   document.querySelectorAll('#launch-timeline .lt-h').forEach(function(h){items.push(parseMilestone(h.textContent))});
   if(!items.length){
     ['November 2026 · Before Launch','Dec 1 2026 · Launch','December 2026','January 2027'].forEach(function(t){items.push(parseMilestone(t))});
   }
-  var today=new Date();today.setHours(0,0,0,0);
+  var today=scenarioToday();
   var dated=items.filter(function(x){return x.hasDay&&x.date&&x.date>=today}).sort(function(a,b){return a.date-b.date});
   if(dated.length)return dated[0];
   var open=items.filter(function(x){return x.end&&x.end>=today});
@@ -107,13 +144,14 @@ function nextMilestone(){
    then the team's stats in #mc-data, then a short fallback. */
 function countsFor(s,id){
   var out=[],seen={};
-  function add(n,l,sub){
+  function add(n,l,sub,opts){
     if(out.length>=3)return;
-    var lab=agree(n,shortLabel(l,sub));
+    var wide=opts&&opts.wide;
+    var lab=wide?'':agree(n,shortLabel(l,sub));
     var num=String(n==null||n===''?'—':n).trim();
-    var k=lab.toLowerCase();
-    if(!lab||seen[k])return;
-    seen[k]=1;out.push({n:num,l:lab});
+    var k=(lab||num).toLowerCase();
+    if((!lab&&!wide)||seen[k])return;
+    seen[k]=1;out.push({n:num,l:lab,wide:!!wide});
   }
   if(id==='launch-checklist'){
     var ck=checklistState();
@@ -124,10 +162,7 @@ function countsFor(s,id){
   }
   if(id==='launch-timeline'){
     var mile=nextMilestone();
-    if(mile){
-      add(mile.name,'Next');
-      add(fmtMileDate(mile),'Date');
-    }
+    if(mile)add(nextLine(mile),'',null,{wide:true});
     var nMiles=document.querySelectorAll('#launch-timeline .lt-h').length||4;
     add(nMiles,'Milestones');
     return out;
@@ -189,8 +224,7 @@ function toneOf(id,s){
   if(id==='launch-timeline'){
     var mile=nextMilestone();
     if(!mile||!mile.end)return 'green';
-    var today=new Date();today.setHours(0,0,0,0);
-    return mile.end>=today?'amber':'green';
+    return mile.end>=scenarioToday()?'amber':'green';
   }
   var L=lightOf(id);
   if(L&&L.c)return /red/i.test(L.c)?'red':/amber|yellow/i.test(L.c)?'amber':'green';
@@ -205,7 +239,10 @@ function fillMini(s,id){
   mini.textContent='';
   mini.setAttribute('aria-hidden', s.classList.contains('nx-shut')?'false':'true');
   countsFor(s,id).forEach(function(c){
-    var k=el('div','nx-k');k.append(el('b',null,c.n),el('span',null,c.l));mini.appendChild(k);
+    var k=el('div',c.wide?'nx-k nx-wide':'nx-k');
+    k.append(el('b',null,c.n));
+    if(c.l)k.append(el('span',null,c.l));
+    mini.appendChild(k);
   });
   var h=s.querySelector('.mc-ph, .lc-sum');
   if(h&&!h.querySelector('.nx-dot')){
@@ -214,6 +251,7 @@ function fillMini(s,id){
   }
   var dot=s.querySelector('.nx-dot');
   if(dot){dot.className='nx-dot '+toneOf(id,s)}
+  applyTitleCase(s);
 }
 
 function bindSection(s){
@@ -254,20 +292,38 @@ function bindSection(s){
   });
 }
 
+var _tcBusy=false;
 function applyTitleCase(root){
-  var sel='h1,h2,h3,h4,.mc-sec,.mc-fold>summary>b,.ccm-h4,.nx-k span,.ccm-tile>span,.mc-ro>div>span,.mc-need h3';
-  (root||document).querySelectorAll(sel).forEach(function(n){
-    if(n.closest('.mc-mh, .ccm-msgs, .nx-thread, textarea, input'))return;
-    if(n.childElementCount)return;
-    var t=n.textContent,u=titleCase(t);
-    if(u&&u!==t)n.textContent=u;
-  });
-  (root||document).querySelectorAll('.ccm-tile, .mc-ro > div').forEach(function(t){
-    var b=t.querySelector('b'),sp=t.querySelector('span');
-    if(!b||!sp||sp.childElementCount)return;
-    var u=agree(b.textContent,titleCase(sp.textContent));
-    if(u&&u!==sp.textContent)sp.textContent=u;
-  });
+  if(_tcBusy)return;
+  _tcBusy=true;
+  try{
+    var sel='h1,h2,h3,h4,.mc-sec,.mc-fold>summary>b,.ccm-h4,.nx-k span,.ccm-tile>span,.mc-ro>div>span,.mc-need h3';
+    (root||document).querySelectorAll(sel).forEach(function(n){
+      if(n.closest('.mc-mh, .ccm-msgs, .nx-thread, textarea, input'))return;
+      if(n.childElementCount)return;
+      var t=n.textContent,u=titleCase(t);
+      if(u&&u!==t)n.textContent=u;
+    });
+    (root||document).querySelectorAll('.ccm-tile, .mc-ro > div').forEach(function(t){
+      var b=t.querySelector('b'),sp=t.querySelector('span');
+      if(!b||!sp||sp.childElementCount)return;
+      var u=agree(b.textContent,titleCase(sp.textContent));
+      if(u&&u!==sp.textContent)sp.textContent=u;
+    });
+  }finally{_tcBusy=false}
+}
+function watchTitleCase(){
+  if(window.__nxTCmo)return;
+  var t=null;
+  function kick(){
+    if(_tcBusy)return;
+    clearTimeout(t);
+    t=setTimeout(function(){applyTitleCase(document)},40);
+  }
+  var mo=new MutationObserver(kick);
+  var roots=[G,$('lc-stack'),document.getElementById('mc-main')||document.body].filter(Boolean);
+  roots.forEach(function(r){mo.observe(r,{subtree:true,childList:true,characterData:true})});
+  window.__nxTCmo=mo;
 }
 
 function reorder(){
@@ -299,6 +355,7 @@ function boot(){
   secs.forEach(function(s){if(s.id&&!seen[s.id]){seen[s.id]=1;bindSection(s)}});
   secs.forEach(function(s){if(s.id)fillMini(s,s.id.replace(/^p-/,''))});
   applyTitleCase(document);
+  watchTitleCase();
 }
 
 /* expandable sections are bound in boot(), after Launch Checklist has moved Warm List and Marketing */
@@ -315,5 +372,5 @@ var GE=MC.gear||{};
 if((GE.vans||[]).length)fold('p-team-tools-equipment','Van Stock',GE.vans.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['On Hand','on'],['Par','par'],['Status','st']],GE.vans)});
 if((GE.bags||[]).length)fold('p-team-tools-equipment','Tech Bag',GE.bags.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Condition','cond'],['Checked','checked']],GE.bags)});
 if((GE.shop_full||[]).length)fold('p-team-tools-equipment','Shop Inventory',GE.shop_full.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Min','min'],['Location','loc'],['Status','st']],GE.shop_full)});
-window.__nx={v:'cc1q',onePage:true};
+window.__nx={v:'cc1s',onePage:true};
 })();
