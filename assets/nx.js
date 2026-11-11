@@ -372,5 +372,5 @@ var GE=MC.gear||{};
 if((GE.vans||[]).length)fold('p-team-tools-equipment','Van Stock',GE.vans.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['On Hand','on'],['Par','par'],['Status','st']],GE.vans)});
 if((GE.bags||[]).length)fold('p-team-tools-equipment','Tech Bag',GE.bags.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Condition','cond'],['Checked','checked']],GE.bags)});
 if((GE.shop_full||[]).length)fold('p-team-tools-equipment','Shop Inventory',GE.shop_full.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Min','min'],['Location','loc'],['Status','st']],GE.shop_full)});
-window.__nx={v:'cc1s',onePage:true};
+window.__nx={v:'cc1t',onePage:true};
 })();
