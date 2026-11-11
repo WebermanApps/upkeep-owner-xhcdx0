@@ -121,3 +121,9 @@ git rm but remain in git history. They hold TEST and Forecast data only (no real
 
 ## Nov 9 2026
 The legacy `/s/` section pages were taken down (Machan, 10:22 PM ICT): `s/`, `org.js`, `org.css` and `tools/update_data.py` deleted. Notes above about `s/`, `org.js` and `update_data.py` are historical.
+
+- Header typography (Nov 11 2026, Swatch call after Machan: "command center header can be up to you"): mission header uses brand fonts — Khand for the title, Hind for body and meta, `font-variant-numeric: tabular-nums` on figures. Leftover Inter / JetBrains Mono removed app-wide (CSS vars, header exception, Google Fonts links). Light header, existing layout, and the unlinked 'Built by Machan' footer are unchanged. Cache tag `cc1t`.
+
+- Header QA r2 (Nov 11 2026, Swatch FAIL on PR #10): launch countdown uses tabular-nums; board headers stay one row at 1280 with the date and clock packed to the right edge; under 560px the header shows a short Khand title (Command Center, Members, Scheduling, Technicians, Tools And Equipment) instead of hiding the title, and the active board tab scrolls into view; Hind 700 is loaded so the UPK code is not fake-bold; dead near-white clock colours removed; board fold labels are Title Case (Member Messages, Open Questions). Cache tag `cc1u`.
+
+- Header QA r3 (Nov 11 2026): on the four boards at 1280, the date and clock sit at the right edge of row 1 (like main). The app chips and Launch In pill wrap to a second row, also right-aligned. Cache tag `cc1v`.
