@@ -2,13 +2,11 @@
 :root{--mo-fast:210ms;--mo:340ms;--mo-slow:520ms;--mo-ease:cubic-bezier(.33,0,.2,1)}
 .nx-preview{margin:0 0 8px;font:400 12.5px/1.4 Hind,sans-serif;color:#6a6458;padding:5px 10px;border:1px solid #e6dfd1;border-radius:14px;background:#fffdf8;align-self:flex-start;width:fit-content;max-width:100%;box-sizing:border-box}
 .nx-preview b{font:600 12.5px Khand,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#3b372f}
-.nx-tog{display:none;margin-left:4px;width:36px;height:32px;border:1px solid #d9d2c3;border-radius:8px;background:#fff;cursor:pointer;align-items:center;justify-content:center;flex:none}
+.nx-tog{display:inline-flex;margin-left:4px;width:36px;height:32px;border:1px solid #d9d2c3;border-radius:8px;background:#fff;cursor:pointer;align-items:center;justify-content:center;flex:none}
 .nx-chev{width:9px;height:9px;border-right:2px solid #3b372f;border-bottom:2px solid #3b372f;transform:rotate(45deg) translate(-2px,-2px);transition:transform var(--mo) var(--mo-ease)}
 .nx-shut .nx-chev{transform:rotate(-45deg)}
 .nx-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (max-width:1099px){.nx-tog{display:inline-flex}.nx-h{cursor:pointer}
- .mc-p .mc-pb{transition:opacity var(--mo) var(--mo-ease)}
- .mc-p.nx-shut .mc-pb{display:none}.mc-p.nx-shut .mc-ph{border-bottom-color:transparent;border-radius:10px}}
+.nx-h{cursor:pointer}
 .nx-fold{margin-top:10px;border:1px solid #e6dfd1;border-radius:10px;background:#fff}
 .nx-fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px 12px;min-height:44px;box-sizing:border-box;font:600 15px Khand,sans-serif}
 .nx-fold>summary::-webkit-details-marker{display:none}
@@ -82,9 +80,9 @@ button,.ccm-link,.nx-ci{transition:background-color var(--mo-fast) var(--mo-ease
 .nx-qf label{font:500 13px Hind,sans-serif;color:#4d483f}
 .nx-qf input{border:1px solid #d9d2c3;border-radius:10px;padding:8px 12px;font:400 16px Hind,sans-serif;min-height:42px;box-sizing:border-box}
 /* calendar: dots by plan, Free Consultation marker, key */
-.ccm-calg .cd u.pl-essentials,.nx-legend u.pl-essentials,.nx-pl.pl-essentials u{background:#7FA6B4}
-.ccm-calg .cd u.pl-plus,.nx-legend u.pl-plus,.nx-pl.pl-plus u{background:#2E6F86}
-.ccm-calg .cd u.pl-complete,.nx-legend u.pl-complete,.nx-pl.pl-complete u{background:#B5562F}
+.ccm-calg .cd u.pl-essentials,.nx-legend u.pl-essentials,.nx-pl.pl-essentials u{background:#0B6E4F}
+.ccm-calg .cd u.pl-plus,.nx-legend u.pl-plus,.nx-pl.pl-plus u{background:#A8431F}
+.ccm-calg .cd u.pl-complete,.nx-legend u.pl-complete,.nx-pl.pl-complete u{background:#05668D}
 .ccm-calg .cd u.fc,.nx-legend u.fc,.nx-pl.fc u{background:#fff;border:2px solid #C9952B;box-sizing:border-box;border-radius:2px;transform:rotate(45deg)}
 .ccm-calg .cd u.fc{width:7px;height:7px}
 .nx-legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 2px 2px;font:400 12.5px Hind,sans-serif;color:#4d483f}
@@ -95,3 +93,162 @@ button,.ccm-link,.nx-ci{transition:background-color var(--mo-fast) var(--mo-ease
 @media (prefers-reduced-motion:reduce){:root{--mo-fast:0ms;--mo:0ms;--mo-slow:0ms}*{animation-duration:0ms!important;scroll-behavior:auto!important}}
 /* keep the live-pings chip from covering an open overlay (composer, request buttons) */
 body:has(.ccm-ov) #su-live-chip{display:none}
+
+/* One page with expandable sections: Members first, mini summary cards when collapsed */
+/* cream is set with html.mc specificity at the end */
+body.mc-cc .mc-grid,body.cc-one .mc-grid,body.mc-cc #mc-grid,body.cc-one #mc-grid{
+  display:flex;flex-direction:column;gap:10px;
+  grid-template-columns:none;grid-auto-rows:auto;
+  max-width:720px;width:100%;margin:0 auto;--rowh:auto;
+}
+body.mc-cc .mc-grid .mc-p,body.cc-one .mc-p,body.cc-one .lc-sec{
+  grid-area:auto!important;max-height:none;
+  background:#fff;border:1px solid #E6E0D6;border-radius:16px;
+  box-shadow:none;min-height:0;
+}
+body.cc-one .mc-p.is-acc::before{display:none}
+body.cc-one .mc-ph,body.cc-one .lc-sum{
+  background:#fff;border-bottom:1px solid #ECE5DA;
+  border-radius:16px 16px 0 0;padding:12px 14px;gap:10px;min-height:56px;box-sizing:border-box;
+}
+body.cc-one .mc-ph h2,body.cc-one .lc-sum h2{
+  font:700 1.15rem/1.1 Khand,sans-serif!important;
+  letter-spacing:.01em!important;text-transform:none!important;
+  color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body.cc-one .mc-pb{overflow:visible;padding:0 14px 14px}
+body.cc-one .mc-p.nx-shut .mc-pb,
+body.cc-one .mc-p.nx-shut .lc-body{display:none}
+body.cc-one .mc-p.nx-shut .mc-ph,
+body.cc-one .lc-sec:not([open]) .lc-sum,
+body.cc-one .lc-warm.wl-closed .mc-ph{
+  border-bottom-color:transparent;border-radius:16px;
+}
+body.cc-one .nx-dot{
+  flex:none;width:9px;height:9px;border-radius:50%;background:#0B6E4F;display:inline-block;
+}
+body.cc-one .nx-dot.amber{background:#B87400}
+body.cc-one .nx-dot.red{background:#B02030}
+body.cc-one .nx-dot.green{background:#0B6E4F}
+body.cc-one .nx-mini{
+  display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 10px;
+  padding:0 14px 14px;box-sizing:border-box;
+}
+body.cc-one .mc-p.nx-shut .nx-mini{display:grid}
+body.cc-one .nx-k{min-width:0;display:flex;flex-direction:column;gap:2px}
+body.cc-one .nx-k b{font:700 1.15rem/1.1 Khand,sans-serif;color:#1A1A1A}
+body.cc-one .nx-k span{font:400 12.5px/1.3 Hind,sans-serif;color:#6B6B6B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.cc-one #lc-stack,body.cc-one .lc-stack{
+  display:flex;flex-direction:column;gap:10px;
+  max-width:720px;width:100%;margin:10px auto 0;
+}
+body.cc-one.ccm-side .mc-grid,body.cc-one #ccm-pingcol{/* one page: no side column */}
+body.cc-one #ccm-pingcol,body.cc-one .ccm-pingcol{position:static;width:auto;max-width:none;height:auto}
+@media (max-width:390px){
+  body.cc-one .nx-mini{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;padding:0 12px 12px}
+  body.cc-one .mc-ph,body.cc-one .lc-sum{padding:10px 12px}
+  body.cc-one .nx-k b{font-size:1.05rem}
+  body.cc-one .nx-k span{font-size:12px}
+}
+@media (max-width:360px){
+  body.cc-one .mc-grid,body.cc-one #lc-stack{gap:8px}
+  body.cc-one .nx-mini{gap:6px}
+  body.mc-cc .mc-grid .mc-p,body.cc-one .mc-p,body.cc-one .lc-sec{border-radius:14px}
+}
+
+body.mc-cc.ccm-side .mc-main,body.cc-one.ccm-side .mc-main{display:block}
+body.mc-cc.ccm-side .mc-grid{margin-right:0;width:100%;max-width:720px}
+
+/* Keep Ping Log in the one-page stack; do not pin it as a side column */
+@media (min-width:1100px){
+  body.mc-cc.ccm-side,body.cc-one.ccm-side{padding-right:0}
+  body.mc-cc.ccm-side #p-pinglog,body.cc-one.ccm-side #p-pinglog,body.cc-one #p-pinglog{
+    position:static!important;top:auto;right:auto;bottom:auto;width:auto;height:auto;
+    z-index:auto;max-height:none;border-radius:16px;border-left:1px solid #E6E0D6;
+  }
+  body.mc-cc.ccm-side #p-pinglog .mc-pb,body.cc-one #p-pinglog .mc-pb{flex:none;overflow:visible;max-height:none}
+}
+@media (max-width:1099px){
+  body.cc-one #p-pinglog:not(.nx-shut) .mc-pb{display:block}
+  body.cc-one #p-pinglog.nx-shut .mc-pb{display:none}
+}
+
+/* Launch fold hides every sibling of the header; keep the mini card visible when shut */
+body.cc-one .lc-warm.wl-closed > .nx-mini,
+body.cc-one .mc-p.nx-shut > .nx-mini{display:grid!important}
+body.cc-one .lc-warm:not(.nx-shut) > .mc-pb{display:block!important}
+body.cc-one .lc-warm.nx-shut > .mc-pb{display:none!important}
+body.cc-one .mc-p .lc-ch,body.cc-one .mc-p .ccm-tog,body.cc-one .mc-p.nx-shut .lc-wc{display:none!important}
+
+body.cc-one .pw-btn,body.cc-one .pw-drag,body.cc-one .pw-tab{display:none!important}
+body.cc-one html.pw-hid .pw-panel > *,html.pw-hid body.cc-one .pw-panel > *{display:unset}
+
+body.cc-one .lc-sum h2,body.cc-one .lc-sec>summary h2{flex:none;white-space:nowrap;overflow:visible;text-overflow:clip}
+body.cc-one .lc-c,body.cc-one .lc-sum .wl-count,body.cc-one .lc-sec .lc-c{
+  min-width:0;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font:500 12.5px/1.3 Hind,sans-serif;color:#6B6B6B
+}
+
+/* QA fix1 (Nov 11 2026): cream page, Hind/Khand in the body, header unchanged,
+   2-col technician tiles at phone widths, Launch mini cards, no ellipsis on tile numbers */
+html.mc.cc-one,html.mc:has(body.cc-one){
+  --bg:#FAF6EE;
+  background:#FAF6EE;
+  background-color:#FAF6EE;
+}
+html.mc body.cc-one,html.mc body.cc-one.mc-cc{
+  --bg:#FAF6EE;
+  --sans:Hind,sans-serif;
+  --mono:Khand,sans-serif;
+  background:#FAF6EE!important;
+  background-color:#FAF6EE!important;
+  font-family:Hind,sans-serif;
+}
+html.mc body.cc-one,html.mc body.cc-one button,html.mc body.cc-one input,html.mc body.cc-one select{
+  font-family:Hind,sans-serif;
+}
+html.mc body.cc-one h1,html.mc body.cc-one h2,html.mc body.cc-one h3,html.mc body.cc-one h4,
+html.mc body.cc-one .mc-ph h2,html.mc body.cc-one .lc-sum h2,html.mc body.cc-one .mc-sec,
+html.mc body.cc-one .mc-fold>summary>b,html.mc body.cc-one .ccm-h4,
+html.mc body.cc-one .mc-ro b,html.mc body.cc-one .ccm-tile>b,html.mc body.cc-one .nx-k b,
+html.mc body.cc-one .num,html.mc body.cc-one td.num,html.mc body.cc-one .ccm-coh-n,
+html.mc body.cc-one .ccm-cov-n b{
+  font-family:Khand,sans-serif!important;
+}
+/* Mission header stays as it is (Inter + JetBrains Mono) until Machan picks a header */
+html.mc body.cc-one .mc-mh{
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+html.mc body.cc-one .mc-mh,html.mc body.cc-one .mc-mh button,html.mc body.cc-one .mc-mh input,html.mc body.cc-one .mc-mh select{
+  font-family:var(--sans);
+}
+
+/* Technician (and other) metric tiles: no ellipsis; 2 columns on a phone card */
+body.cc-one .mc-ro b{
+  overflow:visible;
+  text-overflow:clip;
+  white-space:nowrap;
+  font-family:Khand,sans-serif!important;
+}
+@media (max-width:420px){
+  body.cc-one .mc-ro{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Launch Checklist / Timeline use the same mini card; never clip the title or the old header count */
+body.cc-one .lc-sec .lc-c,body.cc-one .lc-sec .lc-ch{display:none!important}
+body.cc-one .lc-sec .lc-sum h2,body.cc-one .lc-sec>summary h2{
+  flex:none;min-width:0;max-width:none;
+  white-space:nowrap;overflow:visible;text-overflow:clip;
+}
+body.cc-one .lc-sec.nx-shut .nx-mini,body.cc-one .lc-sec:not([open]) .nx-mini{display:grid!important}
+body.cc-one .lc-sec.nx-shut .lc-body,body.cc-one .lc-sec:not([open]) .lc-body{display:none!important}
+body.cc-one .lc-sec:not(.nx-shut)[open] .nx-mini{display:none}
+body.cc-one .lc-sec .nx-k b{word-break:break-word;white-space:normal;overflow:visible;text-overflow:clip}
+
+/* Title Case labels: undo the older uppercase treatments in the page body (not the header) */
+body.cc-one .mc-sec,body.cc-one .mc-ro span,body.cc-one .mc-need h3,body.cc-one .mc-t th,
+body.cc-one .mc-ph h2,body.cc-one .lc-sum h2{
+  text-transform:none!important;
+  letter-spacing:.01em!important;
+}
