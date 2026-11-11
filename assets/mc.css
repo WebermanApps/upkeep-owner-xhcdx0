@@ -17,8 +17,9 @@ html.mc a{color:var(--blu)}
 .mc-cs img{width:28px;height:28px;border-radius:7px;flex:none}
 .mc-cs b{font:700 13px/1 Hind,sans-serif;letter-spacing:.14em;color:#1A1A1A;text-shadow:none;white-space:nowrap}
 .mc-cs span{font:700 15px/1.1 Khand,sans-serif;color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mc-clock{display:flex;gap:14px;align-items:baseline;margin-left:auto;font:500 13px/1 Hind,sans-serif;font-variant-numeric:tabular-nums;color:#C8CDD6;white-space:nowrap}
-.mc-clock b{color:#F5F6F8;font-weight:600;font-size:15px;font-variant-numeric:tabular-nums}
+.mc-cs-short{display:none}
+.mc-clock{display:flex;gap:14px;align-items:baseline;margin-left:auto;font:500 13px/1 Hind,sans-serif;font-variant-numeric:tabular-nums;color:#1A1A1A;white-space:nowrap}
+.mc-clock b{color:#1A1A1A;font-weight:600;font-size:15px;font-variant-numeric:tabular-nums}
 .mc-clock .sim{color:var(--amb)}
 .mc-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 clamp(12px,2.2vw,40px);border-top:1px solid #4A5260;background:var(--shell-slate-2)}
 .mc-tabs::-webkit-scrollbar{display:none}
@@ -182,7 +183,10 @@ a:hover .mw-machan-mark .uk-wink-l,a:focus-visible .mw-machan-mark .uk-wink-l{op
  .mc-p.p-visits .mc-pb,.mc-p.p-gear .mc-pb,.mc-p.p-pinglog .mc-pb{overflow-x:auto;max-height:520px;overflow-y:auto}
  .mc-clock .ict{display:none}
 }
-@media (max-width:560px){.mc-cs span{display:none}.mc-clock{margin-left:auto;gap:8px}.mc-lights .mc-light span{display:none}.mc-hide-s{display:none}.mc-t{font-size:12.5px}.mc-ro b{font-size:21px}}
+@media (max-width:560px){.mc-cs .mc-cs-full{display:none}.mc-cs .mc-cs-short{display:inline;font:700 15px/1.1 Khand,sans-serif;color:#1A1A1A;white-space:nowrap;overflow:visible;text-overflow:clip}.mc-clock{margin-left:auto;gap:8px}.mc-lights .mc-light span{display:none}.mc-hide-s{display:none}.mc-t{font-size:12.5px}.mc-ro b{font-size:21px}.mc-mh-in{gap:10px}.mc-cs{gap:8px}}
+
+/* Boards: keep the one-row (shorter) header; pack date/clock and app chips at the right edge */
+body.mc-board .mc-mh-in > .lc-host{margin-left:0!important}
 /* ---------- boards (body.mc-board) ---------- */
 html.mc .mc-board .mc-mh{position:sticky;top:0}
 html.mc body.mc-board .uk-slim{display:none!important}

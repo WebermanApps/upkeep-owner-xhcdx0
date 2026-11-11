@@ -230,7 +230,9 @@ html.mc body.cc-one .mc-mh .mc-cs span{
 html.mc body.cc-one .mc-mh .mc-clock,
 html.mc body.cc-one .mc-mh .mc-clock b,
 html.mc body.cc-one .mc-mh time,
-html.mc body.cc-one .mc-mh .num{
+html.mc body.cc-one .mc-mh .num,
+html.mc body.cc-one .mc-mh .lc-tick b,
+html.mc .lc-tick b{
   font-variant-numeric:tabular-nums;
 }
 
