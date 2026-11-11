@@ -185,8 +185,8 @@ a:hover .mw-machan-mark .uk-wink-l,a:focus-visible .mw-machan-mark .uk-wink-l{op
 }
 @media (max-width:560px){.mc-cs .mc-cs-full{display:none}.mc-cs .mc-cs-short{display:inline;font:700 15px/1.1 Khand,sans-serif;color:#1A1A1A;white-space:nowrap;overflow:visible;text-overflow:clip}.mc-clock{margin-left:auto;gap:8px}.mc-lights .mc-light span{display:none}.mc-hide-s{display:none}.mc-t{font-size:12.5px}.mc-ro b{font-size:21px}.mc-mh-in{gap:10px}.mc-cs{gap:8px}}
 
-/* Boards: keep the one-row (shorter) header; pack date/clock and app chips at the right edge */
-body.mc-board .mc-mh-in > .lc-host{margin-left:0!important}
+/* Boards: date/clock at the right edge of row 1, like main; chips and Launch In wrap to row 2 */
+body.mc-board .mc-mh-in > .lc-host{flex-basis:100%;margin-left:auto!important;justify-content:flex-end}
 /* ---------- boards (body.mc-board) ---------- */
 html.mc .mc-board .mc-mh{position:sticky;top:0}
 html.mc body.mc-board .uk-slim{display:none!important}
