@@ -100,10 +100,28 @@ function scenarioToday(){
   }
   var t=new Date();t.setHours(0,0,0,0);return t;
 }
+function isDateOnlyLabel(s){
+  var t=String(s||'').replace(/\s+/g,' ').trim();
+  if(!t)return false;
+  var mon='January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec';
+  var day='Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday';
+  if(new RegExp('^(?:(?:'+day+')[,\\s]+)?(?:'+mon+')\\s+\\d{4}$','i').test(t))return true;
+  if(new RegExp('^(?:(?:'+day+')[,\\s]+)?(?:'+mon+')\\s+\\d{1,2},?\\s+\\d{4}$','i').test(t))return true;
+  if(new RegExp('^\\d{1,2}\\s+(?:'+mon+')\\s+\\d{4}$','i').test(t))return true;
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(t))return true;
+  if(/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(t))return true;
+  var ms=Date.parse(t);
+  if(isNaN(ms))return false;
+  var leftover=t.replace(new RegExp(mon,'ig'),' ').replace(new RegExp(day,'ig'),' ').replace(/[0-9,./\-]/g,' ').replace(/\s+/g,' ').trim();
+  leftover=leftover.replace(/\b(of|the|st|nd|rd|th)\b/ig,'').replace(/\s+/g,' ').trim();
+  return !leftover;
+}
 function nextLine(mile){
   if(!mile)return '';
   var name=mile.name||'';
   var dt=fmtMileDate(mile);
+  var dateText=(dt&&dt!=='—')?dt:name;
+  if(!name||isDateOnlyLabel(name))return 'Next Milestone · '+dateText;
   if(dt&&dt!=='—'&&name.toLowerCase()!==dt.toLowerCase()&&name.toLowerCase().indexOf(dt.toLowerCase())===-1){
     return 'Next '+name+' · '+dt;
   }
@@ -354,5 +372,5 @@ var GE=MC.gear||{};
 if((GE.vans||[]).length)fold('p-team-tools-equipment','Van Stock',GE.vans.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['On Hand','on'],['Par','par'],['Status','st']],GE.vans)});
 if((GE.bags||[]).length)fold('p-team-tools-equipment','Tech Bag',GE.bags.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Condition','cond'],['Checked','checked']],GE.bags)});
 if((GE.shop_full||[]).length)fold('p-team-tools-equipment','Shop Inventory',GE.shop_full.length,function(box){tbl(box,[['Item','item'],['Category','cat'],['Qty','qty'],['Min','min'],['Location','loc'],['Status','st']],GE.shop_full)});
-window.__nx={v:'cc1r',onePage:true};
+window.__nx={v:'cc1s',onePage:true};
 })();
