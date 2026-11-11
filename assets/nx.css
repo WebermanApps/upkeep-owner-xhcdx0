@@ -95,7 +95,7 @@ button,.ccm-link,.nx-ci{transition:background-color var(--mo-fast) var(--mo-ease
 body:has(.ccm-ov) #su-live-chip{display:none}
 
 /* One page with expandable sections: Members first, mini summary cards when collapsed */
-body.mc-cc,body.cc-one{background:#FAF6EE}
+/* cream is set with html.mc specificity at the end */
 body.mc-cc .mc-grid,body.cc-one .mc-grid,body.mc-cc #mc-grid,body.cc-one #mc-grid{
   display:flex;flex-direction:column;gap:10px;
   grid-template-columns:none;grid-auto-rows:auto;
@@ -187,4 +187,68 @@ body.cc-one .lc-sum h2,body.cc-one .lc-sec>summary h2{flex:none;white-space:nowr
 body.cc-one .lc-c,body.cc-one .lc-sum .wl-count,body.cc-one .lc-sec .lc-c{
   min-width:0;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   font:500 12.5px/1.3 Hind,sans-serif;color:#6B6B6B
+}
+
+/* QA fix1 (Nov 11 2026): cream page, Hind/Khand in the body, header unchanged,
+   2-col technician tiles at phone widths, Launch mini cards, no ellipsis on tile numbers */
+html.mc.cc-one,html.mc:has(body.cc-one){
+  --bg:#FAF6EE;
+  background:#FAF6EE;
+  background-color:#FAF6EE;
+}
+html.mc body.cc-one,html.mc body.cc-one.mc-cc{
+  --bg:#FAF6EE;
+  --sans:Hind,sans-serif;
+  --mono:Khand,sans-serif;
+  background:#FAF6EE!important;
+  background-color:#FAF6EE!important;
+  font-family:Hind,sans-serif;
+}
+html.mc body.cc-one,html.mc body.cc-one button,html.mc body.cc-one input,html.mc body.cc-one select{
+  font-family:Hind,sans-serif;
+}
+html.mc body.cc-one h1,html.mc body.cc-one h2,html.mc body.cc-one h3,html.mc body.cc-one h4,
+html.mc body.cc-one .mc-ph h2,html.mc body.cc-one .lc-sum h2,html.mc body.cc-one .mc-sec,
+html.mc body.cc-one .mc-fold>summary>b,html.mc body.cc-one .ccm-h4,
+html.mc body.cc-one .mc-ro b,html.mc body.cc-one .ccm-tile>b,html.mc body.cc-one .nx-k b,
+html.mc body.cc-one .num,html.mc body.cc-one td.num,html.mc body.cc-one .ccm-coh-n,
+html.mc body.cc-one .ccm-cov-n b{
+  font-family:Khand,sans-serif!important;
+}
+/* Mission header stays as it is (Inter + JetBrains Mono) until Machan picks a header */
+html.mc body.cc-one .mc-mh{
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+html.mc body.cc-one .mc-mh,html.mc body.cc-one .mc-mh button,html.mc body.cc-one .mc-mh input,html.mc body.cc-one .mc-mh select{
+  font-family:var(--sans);
+}
+
+/* Technician (and other) metric tiles: no ellipsis; 2 columns on a phone card */
+body.cc-one .mc-ro b{
+  overflow:visible;
+  text-overflow:clip;
+  white-space:nowrap;
+  font-family:Khand,sans-serif!important;
+}
+@media (max-width:420px){
+  body.cc-one .mc-ro{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Launch Checklist / Timeline use the same mini card; never clip the title or the old header count */
+body.cc-one .lc-sec .lc-c,body.cc-one .lc-sec .lc-ch{display:none!important}
+body.cc-one .lc-sec .lc-sum h2,body.cc-one .lc-sec>summary h2{
+  flex:none;min-width:0;max-width:none;
+  white-space:nowrap;overflow:visible;text-overflow:clip;
+}
+body.cc-one .lc-sec.nx-shut .nx-mini,body.cc-one .lc-sec:not([open]) .nx-mini{display:grid!important}
+body.cc-one .lc-sec.nx-shut .lc-body,body.cc-one .lc-sec:not([open]) .lc-body{display:none!important}
+body.cc-one .lc-sec:not(.nx-shut)[open] .nx-mini{display:none}
+body.cc-one .lc-sec .nx-k b{word-break:break-word;white-space:normal;overflow:visible;text-overflow:clip}
+
+/* Title Case labels: undo the older uppercase treatments in the page body (not the header) */
+body.cc-one .mc-sec,body.cc-one .mc-ro span,body.cc-one .mc-need h3,body.cc-one .mc-t th,
+body.cc-one .mc-ph h2,body.cc-one .lc-sum h2{
+  text-transform:none!important;
+  letter-spacing:.01em!important;
 }
